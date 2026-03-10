@@ -4,6 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>爻の30天交易入门课 | Yao's 30-Day Trading Course</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
 <style>
 :root {
@@ -18,165 +21,729 @@
   --text: #e8e8e8;
   --text2: #9aa5b4;
   --border: #2a3a5c;
+  --glass: rgba(22, 33, 62, 0.6);
+  --glass-border: rgba(0, 212, 170, 0.08);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', sans-serif; line-height: 1.7; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', sans-serif;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
+/* Background blobs */
+.bg-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-blobs .blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.12;
+}
+.blob-1 { width: 600px; height: 600px; background: var(--accent); top: -200px; left: -100px; }
+.blob-2 { width: 500px; height: 500px; background: #7c3aed; bottom: -150px; right: -100px; }
+.blob-3 { width: 400px; height: 400px; background: var(--accent2); top: 40%; left: 50%; }
+
+/* Top progress bar */
+.top-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+}
+.top-progress-bar .fill {
+  height: 100%;
+  width: calc(1 / 30 * 100%);
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 0 2px 2px 0;
+  transition: width 0.6s ease;
+}
+.top-progress-bar .label {
+  position: absolute;
+  right: 16px;
+  top: 6px;
+  font-size: 10px;
+  color: var(--text2);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
 /* Layout */
-.layout { display: flex; min-height: 100vh; }
-.sidebar { width: 280px; background: var(--card); border-right: 1px solid var(--border); padding: 24px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 10; }
-.sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
-.sidebar-header h1 { font-size: 18px; color: var(--accent); }
+.layout { display: flex; min-height: 100vh; position: relative; z-index: 1; }
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: rgba(22, 33, 62, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-right: 1px solid var(--glass-border);
+  padding: 0;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; opacity: 0.5; }
+.sidebar::-webkit-scrollbar-thumb:hover { background: var(--accent2); }
+
+.sidebar-logo {
+  padding: 24px 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-char {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0, 212, 170, 0.5), 0 0 40px rgba(0, 212, 170, 0.2);
+  line-height: 1;
+}
+.sidebar-logo .logo-text { font-size: 11px; color: var(--text2); line-height: 1.4; }
+
+.sidebar-progress-area {
+  padding: 16px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.progress-ring-container {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+.progress-ring { transform: rotate(-90deg); }
+.progress-ring .bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 3; }
+.progress-ring .fg {
+  fill: none;
+  stroke: url(#progressGrad);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 113.1;
+  stroke-dashoffset: calc(113.1 - 113.1 * 1 / 30);
+  transition: stroke-dashoffset 0.8s ease;
+}
+.progress-ring-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.progress-info .p-title { font-size: 12px; font-weight: 600; color: var(--text); }
+.progress-info .p-sub { font-size: 10px; color: var(--text2); }
+
+.sidebar-header { padding: 16px 20px; }
+.sidebar-header h1 { font-size: 18px; color: var(--accent); font-weight: 700; }
 .sidebar-header p { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
 .nav-section { padding: 0 12px; margin-bottom: 16px; }
 .nav-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); padding: 0 8px; margin-bottom: 8px; }
-.nav-item { display: block; padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.2s; }
-.nav-item:hover { background: var(--card2); color: var(--text); text-decoration: none; }
-.nav-item.active { background: rgba(0,212,170,0.12); color: var(--accent); font-weight: 600; }
+.nav-item {
+  display: block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
+.nav-item:hover:not(.locked) {
+  background: var(--card2);
+  color: var(--text);
+  transform: translateX(4px);
+  box-shadow: 0 0 12px rgba(0, 212, 170, 0.06);
+  text-decoration: none;
+}
+.nav-item.active {
+  background: rgba(0,212,170,0.12);
+  color: var(--accent);
+  font-weight: 600;
+  border-color: rgba(0,212,170,0.15);
+}
 .nav-item .day-num { font-size: 11px; color: var(--text2); margin-right: 6px; }
 .nav-item.locked { opacity: 0.4; cursor: default; }
 .nav-item .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
 .badge.new { background: rgba(0,212,170,0.2); color: var(--accent); }
 .badge.soon { background: rgba(255,167,38,0.2); color: var(--yellow); }
 
-.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; }
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text2);
+  text-align: center;
+}
+
+.sidebar-nav-content { flex: 1; overflow-y: auto; padding-top: 4px; }
+.sidebar-nav-content::-webkit-scrollbar { width: 4px; }
+.sidebar-nav-content::-webkit-scrollbar-track { background: transparent; }
+.sidebar-nav-content::-webkit-scrollbar-thumb { background: rgba(0,212,170,0.3); border-radius: 4px; }
+
+/* Hamburger */
+.hamburger-btn {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 100;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  transition: all 0.3s;
+}
+.hamburger-btn span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.hamburger-btn.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger-btn.active span:nth-child(2) { opacity: 0; }
+.hamburger-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 9;
+}
+.sidebar-overlay.show { display: block; }
+
+.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; position: relative; z-index: 1; }
+
+/* Section animation */
+.section {
+  margin-bottom: 36px;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section.visible .concept-card,
+.section.visible .pattern-card,
+.section.visible .sr-method,
+.section.visible .anno {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 /* Content */
-.day-header { margin-bottom: 32px; }
+.day-header { margin-bottom: 32px; opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.day-header.visible { opacity: 1; transform: translateY(0); }
 .day-header .day-label { font-size: 13px; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
 .day-header h2 { font-size: 28px; font-weight: 700; margin-top: 4px; }
 .day-header .subtitle { font-size: 14px; color: var(--text2); margin-top: 4px; }
 
-.section { margin-bottom: 36px; }
 .section h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
 .bilingual { font-size: 13px; color: var(--accent2); font-weight: 400; }
 
-.concept-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border); }
+/* Glassmorphism cards */
+.concept-card {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(12px);
+  transition: all 0.4s ease;
+}
+.concept-card:hover {
+  border-color: rgba(0, 212, 170, 0.2);
+  box-shadow: 0 4px 24px rgba(0, 212, 170, 0.06), inset 0 1px 0 rgba(255,255,255,0.03);
+  background: rgba(22, 33, 62, 0.75);
+}
 .concept-card h4 { font-size: 15px; margin-bottom: 6px; }
 .concept-card .en { font-size: 12px; color: var(--accent2); font-weight: 400; margin-left: 8px; }
 .concept-card p { font-size: 14px; color: var(--text2); }
 .concept-card .highlight { color: var(--text); font-weight: 500; }
 .concept-card .key { display: inline-block; background: rgba(0,212,170,0.1); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-top: 8px; }
 
-.chart-container { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
-.chart-container .chart-title { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+/* Chart */
+.chart-container {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--glass-border);
+  transition: border-color 0.3s;
+}
+.chart-container:hover { border-color: rgba(0,212,170,0.15); }
+.chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+.chart-container .chart-title {
+  font-size: 13px;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.live-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+@keyframes livePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(38,166,154,0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(38,166,154,0); }
+}
+.chart-tabs { display: flex; gap: 4px; }
+.chart-tab {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text2);
+  transition: all 0.2s;
+}
+.chart-tab.active { background: rgba(0,212,170,0.12); color: var(--accent); border-color: rgba(0,212,170,0.3); }
+.chart-tab:hover:not(.active) { background: var(--card2); color: var(--text); }
 .chart-box { height: 420px; border-radius: 8px; overflow: hidden; }
+.chart-coming-msg {
+  display: none;
+  height: 420px;
+  border-radius: 8px;
+  background: var(--card2);
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--text2);
+  flex-direction: column;
+  gap: 8px;
+}
+.chart-coming-msg .coming-icon { font-size: 28px; opacity: 0.5; }
 
 .annotation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
-.anno { background: var(--card); border-radius: 10px; padding: 16px; border-left: 4px solid; }
-.anno.green { border-color: var(--green); }
-.anno.red { border-color: var(--red); }
-.anno.blue { border-color: var(--accent2); }
-.anno.yellow { border-color: var(--yellow); }
+.anno {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 16px;
+  border-left: 4px solid;
+  border-right: 1px solid var(--glass-border);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  transition: all 0.35s ease;
+  opacity: 0;
+  transform: translateY(12px);
+}
+.anno:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transform: translateY(-2px) !important;
+}
+.anno.green { border-left-color: var(--green); }
+.anno.red { border-left-color: var(--red); }
+.anno.blue { border-left-color: var(--accent2); }
+.anno.yellow { border-left-color: var(--yellow); }
 .anno h4 { font-size: 14px; margin-bottom: 4px; }
 .anno p { font-size: 13px; color: var(--text2); }
 
 /* K-line patterns */
 .pattern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.pattern-card { background: var(--card); border-radius: 10px; padding: 20px; text-align: center; border: 1px solid var(--border); }
+.pattern-card {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid var(--glass-border);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  opacity: 0;
+  transform: translateY(12px);
+}
+.pattern-card:hover {
+  transform: scale(1.04) translateY(-2px) !important;
+  border-color: rgba(0, 212, 170, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 212, 170, 0.1), 0 0 0 1px rgba(0,212,170,0.1);
+  z-index: 2;
+}
 .pattern-card h4 { font-size: 14px; margin-bottom: 2px; }
 .pattern-card .en-name { font-size: 11px; color: var(--accent2); margin-bottom: 10px; }
 .pattern-card svg { display: block; margin: 0 auto 10px; }
+.pattern-card svg rect, .pattern-card svg line { animation: candlePulse 3s ease-in-out infinite; }
+@keyframes candlePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
 .tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
 .tag.bullish { background: rgba(38,166,154,0.15); color: var(--green); }
 .tag.bearish { background: rgba(239,83,80,0.15); color: var(--red); }
 .tag.neutral { background: rgba(66,165,245,0.15); color: var(--accent2); }
 .pattern-card p { font-size: 12px; color: var(--text2); margin-top: 8px; line-height: 1.5; }
 
+/* Pattern tooltip */
+.pattern-card .tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--card);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.25s ease;
+  z-index: 10;
+  box-shadow: 0 4px 16px rgba(0,212,170,0.15);
+}
+.pattern-card .tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--accent);
+}
+.pattern-card:hover .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
 /* Support/Resistance section */
-.sr-method { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 12px; border: 1px solid var(--border); display: flex; gap: 16px; align-items: flex-start; }
+.sr-method {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+  border: 1px solid var(--glass-border);
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  transition: all 0.35s ease;
+  opacity: 0;
+  transform: translateY(12px);
+}
+.sr-method:hover {
+  border-color: rgba(0,212,170,0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
 .sr-num { background: var(--accent); color: var(--bg); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
 .sr-method h4 { font-size: 14px; margin-bottom: 4px; }
 .sr-method .en-label { font-size: 12px; color: var(--accent2); }
 .sr-method p { font-size: 13px; color: var(--text2); margin-top: 6px; }
 
 /* Quiz */
-.quiz { background: var(--card2); border-radius: 12px; padding: 24px; border: 1px solid var(--border); }
-.quiz h3 { font-size: 16px; margin-bottom: 16px; }
+.quiz {
+  background: rgba(26, 39, 68, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid var(--glass-border);
+}
+.quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.quiz-header h3 { font-size: 16px; margin-bottom: 0; }
+.quiz-score {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  background: rgba(0,212,170,0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
 .quiz-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
 .quiz-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
 .quiz-item .q { font-size: 14px; margin-bottom: 8px; }
 .quiz-item .q strong { color: var(--accent); }
-.quiz-item .answer { font-size: 13px; color: var(--text2); background: var(--card); border-radius: 8px; padding: 12px; display: none; }
-.quiz-item .answer.show { display: block; }
+.quiz-item .answer {
+  font-size: 13px;
+  color: var(--text2);
+  background: var(--card);
+  border-radius: 8px;
+  padding: 0 12px;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, padding 0.4s ease;
+}
+.quiz-item .answer.show {
+  max-height: 300px;
+  opacity: 1;
+  padding: 12px;
+}
 .quiz-item .answer .correct { color: var(--green); font-weight: 500; }
 .quiz-item .answer .wrong { color: var(--red); font-weight: 500; }
-.show-btn { background: rgba(0,212,170,0.12); color: var(--accent); border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600; }
-.show-btn:hover { background: rgba(0,212,170,0.2); }
+.show-btn {
+  background: rgba(0,212,170,0.12);
+  color: var(--accent);
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s;
+}
+.show-btn:hover { background: rgba(0,212,170,0.2); transform: translateY(-1px); }
+.show-btn.viewed { background: rgba(38,166,154,0.15); color: var(--green); }
 
 /* Table */
 table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
-th { text-align: left; padding: 8px 12px; background: var(--card2); color: var(--text2); font-weight: 600; border-bottom: 1px solid var(--border); }
+th { text-align: left; padding: 8px 12px; background: rgba(26,39,68,0.6); color: var(--text2); font-weight: 600; border-bottom: 1px solid var(--border); }
 td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
 tr:hover td { background: rgba(255,255,255,0.02); }
 
-/* Summary */
-.summary-box { background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(66,165,245,0.08)); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 24px; }
-.summary-box h4 { font-size: 15px; margin-bottom: 10px; }
+/* Summary checklist */
+.summary-box {
+  background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(66,165,245,0.08));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+}
+.summary-box.visible { opacity: 1; transform: translateY(0); }
+.summary-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.summary-box h4 { font-size: 15px; }
+.summary-progress { font-size: 11px; font-weight: 600; color: var(--accent); }
 .summary-box ul { list-style: none; }
-.summary-box li { font-size: 13px; padding: 4px 0; color: var(--text2); }
-.summary-box li::before { content: "✦ "; color: var(--accent); }
+.summary-box li {
+  font-size: 13px;
+  padding: 6px 0;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  transition: color 0.2s;
+  user-select: none;
+}
+.summary-box li .check-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  transition: all 0.25s;
+  margin-top: 2px;
+}
+.summary-box li.checked .check-icon {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+.summary-box li.checked { color: var(--accent); }
+
+/* Footer */
+.site-footer {
+  margin-top: 48px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.footer-powered {
+  font-size: 12px;
+  color: var(--text2);
+  margin-bottom: 20px;
+}
+.footer-powered span { color: var(--accent); font-weight: 600; }
+.next-lesson-card {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  display: inline-block;
+  max-width: 420px;
+  text-align: left;
+  transition: border-color 0.3s;
+}
+.next-lesson-card:hover { border-color: rgba(0,212,170,0.2); }
+.next-lesson-card .next-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; margin-bottom: 6px; }
+.next-lesson-card .next-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+.next-lesson-card .next-sub { font-size: 12px; color: var(--text2); }
+.next-lesson-card .countdown { font-size: 11px; color: var(--yellow); margin-top: 8px; font-weight: 500; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .main { margin-left: 0; padding: 20px; }
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger-btn { display: flex; }
+  .main { margin-left: 0; padding: 20px; padding-top: 60px; }
   .annotation-grid { grid-template-columns: 1fr; }
   .pattern-grid { grid-template-columns: 1fr 1fr; }
+  .chart-header { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 480px) {
+  .pattern-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
+
+<!-- Background blobs -->
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<!-- Top progress bar -->
+<div class="top-progress-bar">
+  <div class="fill"></div>
+  <div class="label">1/30 days completed</div>
+</div>
+
+<!-- Hamburger button (mobile) -->
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<!-- Sidebar overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SVG defs for progress ring gradient -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00d4aa"/>
+      <stop offset="100%" stop-color="#42a5f5"/>
+    </linearGradient>
+  </defs>
+</svg>
+
 <div class="layout">
   <!-- Sidebar -->
-  <nav class="sidebar">
-    <div class="sidebar-header">
-      <h1>爻の交易课</h1>
-      <p>Yao's 30-Day Trading Course</p>
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-char">爻</div>
+      <div class="logo-text">爻の交易课<br><span style="font-size:10px;opacity:0.6">Yao's Trading Course</span></div>
     </div>
 
-    <div class="nav-section">
-      <h3>Week 1 · K线与趋势</h3>
-      <a class="nav-item active" href="#day1" onclick="showDay('day1')">
-        <span class="day-num">D1</span> K线基础 Candlestick Basics <span class="badge new">NEW</span>
-      </a>
-      <a class="nav-item locked">
-        <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge soon">SOON</span>
-      </a>
-      <a class="nav-item locked"><span class="day-num">D3</span> 趋势线与通道 Trendlines</a>
-      <a class="nav-item locked"><span class="day-num">D4</span> 均线系统 Moving Averages</a>
-      <a class="nav-item locked"><span class="day-num">D5</span> 成交量 Volume Analysis</a>
-      <a class="nav-item locked"><span class="day-num">D6</span> 趋势转折识别 Trend Reversal</a>
-      <a class="nav-item locked"><span class="day-num">D7</span> 周测验 Weekly Quiz</a>
+    <div class="sidebar-progress-area">
+      <div class="progress-ring-container">
+        <svg class="progress-ring" width="44" height="44" viewBox="0 0 44 44">
+          <circle class="bg" cx="22" cy="22" r="18"/>
+          <circle class="fg" cx="22" cy="22" r="18"/>
+        </svg>
+        <div class="progress-ring-label">1/30</div>
+      </div>
+      <div class="progress-info">
+        <div class="p-title">Course Progress</div>
+        <div class="p-sub">3.3% complete</div>
+      </div>
     </div>
 
-    <div class="nav-section">
-      <h3>Week 2 · 指标与系统</h3>
-      <a class="nav-item locked"><span class="day-num">D8</span> RSI 相对强弱指标</a>
-      <a class="nav-item locked"><span class="day-num">D9</span> MACD 指标</a>
-      <a class="nav-item locked"><span class="day-num">D10</span> 布林带 Bollinger Bands</a>
-      <a class="nav-item locked"><span class="day-num">D11</span> 斐波那契 Fibonacci</a>
-      <a class="nav-item locked"><span class="day-num">D12</span> 止损止盈 Stop Loss & Take Profit</a>
-      <a class="nav-item locked"><span class="day-num">D13</span> 仓位管理 Position Sizing</a>
-      <a class="nav-item locked"><span class="day-num">D14</span> 周测验 Weekly Quiz</a>
+    <div class="sidebar-nav-content">
+      <div class="nav-section">
+        <h3>Week 1 · K线与趋势</h3>
+        <a class="nav-item active" href="#day1" data-section="day-header">
+          <span class="day-num">D1</span> K线基础 Candlestick Basics <span class="badge new">NEW</span>
+        </a>
+        <a class="nav-item locked">
+          <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge soon">SOON</span>
+        </a>
+        <a class="nav-item locked"><span class="day-num">D3</span> 趋势线与通道 Trendlines</a>
+        <a class="nav-item locked"><span class="day-num">D4</span> 均线系统 Moving Averages</a>
+        <a class="nav-item locked"><span class="day-num">D5</span> 成交量 Volume Analysis</a>
+        <a class="nav-item locked"><span class="day-num">D6</span> 趋势转折识别 Trend Reversal</a>
+        <a class="nav-item locked"><span class="day-num">D7</span> 周测验 Weekly Quiz</a>
+      </div>
+
+      <div class="nav-section">
+        <h3>Week 2 · 指标与系统</h3>
+        <a class="nav-item locked"><span class="day-num">D8</span> RSI 相对强弱指标</a>
+        <a class="nav-item locked"><span class="day-num">D9</span> MACD 指标</a>
+        <a class="nav-item locked"><span class="day-num">D10</span> 布林带 Bollinger Bands</a>
+        <a class="nav-item locked"><span class="day-num">D11</span> 斐波那契 Fibonacci</a>
+        <a class="nav-item locked"><span class="day-num">D12</span> 止损止盈 Stop Loss & Take Profit</a>
+        <a class="nav-item locked"><span class="day-num">D13</span> 仓位管理 Position Sizing</a>
+        <a class="nav-item locked"><span class="day-num">D14</span> 周测验 Weekly Quiz</a>
+      </div>
+
+      <div class="nav-section">
+        <h3>Week 3 · 链上分析</h3>
+        <a class="nav-item locked"><span class="day-num">D15</span> 链上分析入门 On-Chain Intro</a>
+        <a class="nav-item locked"><span class="day-num">D16</span> Smart Money 追踪</a>
+        <a class="nav-item locked"><span class="day-num">D17</span> 代币安全分析 Token Safety</a>
+        <a class="nav-item locked"><span class="day-num">D18</span> DEX 数据分析</a>
+        <a class="nav-item locked"><span class="day-num">D19</span> 链上指标 On-Chain Metrics</a>
+        <a class="nav-item locked"><span class="day-num">D20</span> 信号实战 Signal Trading</a>
+        <a class="nav-item locked"><span class="day-num">D21</span> 周测验 Weekly Quiz</a>
+      </div>
+
+      <div class="nav-section">
+        <h3>Week 4 · 实战综合</h3>
+        <a class="nav-item locked"><span class="day-num">D22-30</span> 综合实战 Live Trading</a>
+      </div>
     </div>
 
-    <div class="nav-section">
-      <h3>Week 3 · 链上分析</h3>
-      <a class="nav-item locked"><span class="day-num">D15</span> 链上分析入门 On-Chain Intro</a>
-      <a class="nav-item locked"><span class="day-num">D16</span> Smart Money 追踪</a>
-      <a class="nav-item locked"><span class="day-num">D17</span> 代币安全分析 Token Safety</a>
-      <a class="nav-item locked"><span class="day-num">D18</span> DEX 数据分析</a>
-      <a class="nav-item locked"><span class="day-num">D19</span> 链上指标 On-Chain Metrics</a>
-      <a class="nav-item locked"><span class="day-num">D20</span> 信号实战 Signal Trading</a>
-      <a class="nav-item locked"><span class="day-num">D21</span> 周测验 Weekly Quiz</a>
-    </div>
-
-    <div class="nav-section">
-      <h3>Week 4 · 实战综合</h3>
-      <a class="nav-item locked"><span class="day-num">D22-30</span> 综合实战 Live Trading</a>
+    <div class="sidebar-bottom">
+      Day 1 · 2026.03.10
     </div>
   </nav>
 
@@ -184,14 +751,14 @@ tr:hover td { background: rgba(255,255,255,0.02); }
   <main class="main">
     <div id="day1">
       <!-- Day Header -->
-      <div class="day-header">
+      <div class="day-header" id="day-header">
         <div class="day-label">Day 1 of 30</div>
         <h2>K线基础 <span class="bilingual">Candlestick Basics</span></h2>
         <div class="subtitle">学会读懂每一根K线 — 这是所有技术分析的基础 | Learn to read every candlestick — the foundation of all technical analysis</div>
       </div>
 
       <!-- Section 1: What is a Candlestick -->
-      <div class="section">
+      <div class="section" id="section-1">
         <h3>一、什么是K线？ <span class="bilingual">What is a Candlestick?</span></h3>
 
         <div class="concept-card">
@@ -213,35 +780,51 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
 
       <!-- Section 2: Live Chart -->
-      <div class="section">
+      <div class="section" id="section-2">
         <h3>二、实盘解读 <span class="bilingual">Live Chart Analysis</span></h3>
         <div class="chart-container">
-          <div class="chart-title">BTC/USDT 日线 Daily | 2026.02.25 - 2026.03.10 | 数据来源: OKX DEX</div>
+          <div class="chart-header">
+            <div class="chart-title">
+              <span class="live-dot"></span>
+              <span>LIVE</span>
+              BTC/USDT 日线 Daily | 2026.02.25 - 2026.03.10 | 数据来源: OKX DEX
+            </div>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-tf="1D">日线 1D</button>
+              <button class="chart-tab" data-tf="4H">4小时 4H</button>
+              <button class="chart-tab" data-tf="1H">1小时 1H</button>
+            </div>
+          </div>
           <div class="chart-box" id="btc-chart"></div>
+          <div class="chart-coming-msg" id="chart-coming">
+            <div class="coming-icon">&#128274;</div>
+            <div>Coming in Day 2</div>
+            <div style="font-size:12px;opacity:0.6">多时间周期分析将在第2天解锁</div>
+          </div>
         </div>
 
         <div class="annotation-grid">
           <div class="anno green">
-            <h4>🟢 3/4 放量大阳线 Bullish Engulfing +8.6%</h4>
+            <h4>&#x1f7e2; 3/4 放量大阳线 Bullish Engulfing +8.6%</h4>
             <p>Open $67,579 → Close $73,367<br>Volume $215.7M（全期最大 highest）<br><strong>大资金集中买入 = 真突破</strong><br>Institutional buying = real breakout</p>
           </div>
           <div class="anno red">
-            <h4>🔴 3/5 射击之星 Shooting Star</h4>
+            <h4>&#x1f534; 3/5 射击之星 Shooting Star</h4>
             <p>High $74,994 但收 $71,386<br>长上影线 Long upper wick<br><strong>$75K 附近有强阻力</strong><br>Strong resistance near $75K</p>
           </div>
           <div class="anno blue">
-            <h4>🔵 支撑区 Support Zone $62K-$64K</h4>
+            <h4>&#x1f535; 支撑区 Support Zone $62K-$64K</h4>
             <p>2/25, 2/28, 3/1 多次止跌反弹<br>Multiple bounces = strong support<br><strong>反复测试不破 = 强支撑</strong><br>Tested and held = reliable floor</p>
           </div>
           <div class="anno yellow">
-            <h4>🟡 3/7-3/8 缩量横盘 Low Volume Consolidation</h4>
+            <h4>&#x1f7e1; 3/7-3/8 缩量横盘 Low Volume Consolidation</h4>
             <p>跌幅仅 -1%, Vol $41-43M（最低）<br>Smallest decline, lowest volume<br><strong>抛压衰竭，可能止跌</strong><br>Selling exhaustion, potential bottom</p>
           </div>
         </div>
       </div>
 
       <!-- Section 3: Support & Resistance Methods -->
-      <div class="section">
+      <div class="section" id="section-3">
         <h3>三、支撑区判断方法 <span class="bilingual">How to Identify Support Zones</span></h3>
 
         <div class="sr-method">
@@ -294,10 +877,11 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
 
       <!-- Section 4: 6 Patterns -->
-      <div class="section">
+      <div class="section" id="section-4">
         <h3>四、6种必学K线形态 <span class="bilingual">6 Essential Candlestick Patterns</span></h3>
         <div class="pattern-grid">
           <div class="pattern-card">
+            <div class="tooltip">实体越长力量越大 | Long body = strong momentum</div>
             <h4>大阳线 / 大阴线</h4>
             <div class="en-name">Marubozu / Long Body</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -312,6 +896,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <p>实体越长力量越大<br>Long body = strong momentum<br>配合放量 = 真趋势</p>
           </div>
           <div class="pattern-card">
+            <div class="tooltip">长下影线 = 底部有买盘 | Long lower wick = buyers</div>
             <h4>锤子线</h4>
             <div class="en-name">Hammer</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -323,6 +908,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <p>长下影线 Long lower wick<br>跌了被拉回 = 有买盘<br>出现在底部 = 看涨</p>
           </div>
           <div class="pattern-card">
+            <div class="tooltip">长上影线 = 顶部有卖压 | Long upper wick = sellers</div>
             <h4>射击之星</h4>
             <div class="en-name">Shooting Star</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -334,6 +920,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <p>长上影线 Long upper wick<br>冲高被打回 = 有卖压<br>出现在顶部 = 看跌</p>
           </div>
           <div class="pattern-card">
+            <div class="tooltip">多空均衡 = 变盘信号 | Indecision = potential reversal</div>
             <h4>十字星</h4>
             <div class="en-name">Doji</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -344,6 +931,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <p>开盘 ≈ 收盘 Open ≈ Close<br>多空均衡 Bulls = Bears<br>趋势末端 = 可能变盘</p>
           </div>
           <div class="pattern-card">
+            <div class="tooltip">买方压倒卖方 = 强反转 | Buyers overwhelm sellers</div>
             <h4>看涨吞没</h4>
             <div class="en-name">Bullish Engulfing</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -358,6 +946,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <p>大阳线吞没前阴线<br>Bullish candle engulfs bearish<br>买方压倒卖方</p>
           </div>
           <div class="pattern-card">
+            <div class="tooltip">蓄势待发 = 等突破方向 | Coiling up = wait for breakout</div>
             <h4>孕线</h4>
             <div class="en-name">Harami / Inside Bar</div>
             <svg width="90" height="100" viewBox="0 0 90 100">
@@ -375,42 +964,46 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
 
       <!-- Section 5: Quiz -->
-      <div class="section">
+      <div class="section" id="section-5">
         <h3>五、Day 1 练习 <span class="bilingual">Quiz</span></h3>
         <div class="quiz">
+          <div class="quiz-header">
+            <h3>练习题 Quiz</h3>
+            <div class="quiz-score">你的得分 Your Score: <span id="quizScore">0</span>/4</div>
+          </div>
           <div class="quiz-item">
             <div class="q"><strong>Q1:</strong> 3/4 那根大阳线（+8.6%）是什么形态？配合成交量说明了什么？<br><em>What pattern is the 3/4 candle (+8.6%)? What does the volume tell us?</em></div>
-            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <button class="show-btn" onclick="revealAnswer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 正确答案：大阳线 / Bullish Marubozu</p>
+              <p class="correct">&#x2705; 正确答案：大阳线 / Bullish Marubozu</p>
               <p>实体长、影线短、涨幅8.6%，配合全期最大成交量 $215M = <strong>放量突破 (Volume Breakout)</strong>。大资金在集中买入，是真突破不是假突破。</p>
-              <p class="wrong">❌ 常见错误：误认为射击之星（Shooting Star）。射击之星是长上影线 + 小实体，3/5 才是接近射击之星的形态。</p>
+              <p class="wrong">&#x274c; 常见错误：误认为射击之星（Shooting Star）。射击之星是长上影线 + 小实体，3/5 才是接近射击之星的形态。</p>
             </div>
           </div>
 
           <div class="quiz-item">
             <div class="q"><strong>Q2:</strong> 3/5 的K线有什么特征？<br><em>What's special about the 3/5 candle?</em></div>
-            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <button class="show-btn" onclick="revealAnswer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 长上影线 (Long Upper Wick)，接近射击之星 (Shooting Star)</p>
+              <p class="correct">&#x2705; 长上影线 (Long Upper Wick)，接近射击之星 (Shooting Star)</p>
               <p>最高 $74,994 但收 $71,386（低于开盘 $73,367），是<strong>阴线</strong>不是阳线。冲到 $75K 被卖回来 = 上方有强阻力 (Strong Resistance)。</p>
             </div>
           </div>
 
           <div class="quiz-item">
             <div class="q"><strong>Q3:</strong> BTC 当前的支撑位和阻力位大概在哪？<br><em>Where are the current support and resistance levels?</em></div>
-            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <button class="show-btn" onclick="revealAnswer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 支撑 Support: $62,000-$64,000 | 阻力 Resistance: $74,000-$75,000</p>
+              <p class="correct">&#x2705; 支撑 Support: $62,000-$64,000 | 阻力 Resistance: $74,000-$75,000</p>
               <p>支撑：多次在 $62K-$64K 止跌反弹。阻力：3/5 冲到 $74,994 回落，$75K 是明确天花板。中间 $67K-$68K 是次级支撑。</p>
             </div>
           </div>
 
           <div class="quiz-item">
             <div class="q"><strong>Q4:</strong> 如果明天 BTC 在 $66,000 出现锤子线 (Hammer)，你怎么看？<br><em>If BTC forms a Hammer at $66,000 tomorrow, what do you think?</em></div>
-            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <button class="show-btn" onclick="revealAnswer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 支撑区附近的反转信号 — 但需要等确认</p>
+              <p class="correct">&#x2705; 支撑区附近的反转信号 — 但需要等确认</p>
               <p>$66K 靠近次支撑区 ($67-68K 下方)，锤子线 = 潜在做多信号。但必须<strong>等确认 (Wait for Confirmation)</strong>：<br>
               → 第二天收阳线 = 确认，可轻仓做多<br>
               → 继续跌破 $62K = 支撑失败，不能接<br>
@@ -421,29 +1014,39 @@ tr:hover td { background: rgba(255,255,255,0.02); }
       </div>
 
       <!-- Summary -->
-      <div class="summary-box">
-        <h4>📝 Day 1 核心要点 Key Takeaways</h4>
-        <ul>
-          <li>收盘 > 开盘 = 阳线 (Bullish)，收盘 < 开盘 = 阴线 (Bearish)</li>
-          <li>影线长 = 那个方向被拒绝 | Long wick = rejection in that direction</li>
-          <li>放量 + 大阳线 = 真突破 | High volume + long bullish = real breakout</li>
-          <li>支撑/阻力是区域不是精确价格 | S/R are zones, not exact prices</li>
-          <li>单根K线只是信号，必须等确认 | Single candle = signal, wait for confirmation</li>
-          <li>支撑判断4法：多次触底、放量反转、前阻变支撑、低点抬高</li>
+      <div class="summary-box" id="summaryBox">
+        <div class="summary-header">
+          <h4>&#x1f4dd; Day 1 核心要点 Key Takeaways</h4>
+          <div class="summary-progress">已掌握 <span id="masteredCount">0</span>/6 Mastered</div>
+        </div>
+        <ul id="summaryList">
+          <li data-key="s1" onclick="toggleCheck(this)"><span class="check-icon"></span><span>收盘 > 开盘 = 阳线 (Bullish)，收盘 < 开盘 = 阴线 (Bearish)</span></li>
+          <li data-key="s2" onclick="toggleCheck(this)"><span class="check-icon"></span><span>影线长 = 那个方向被拒绝 | Long wick = rejection in that direction</span></li>
+          <li data-key="s3" onclick="toggleCheck(this)"><span class="check-icon"></span><span>放量 + 大阳线 = 真突破 | High volume + long bullish = real breakout</span></li>
+          <li data-key="s4" onclick="toggleCheck(this)"><span class="check-icon"></span><span>支撑/阻力是区域不是精确价格 | S/R are zones, not exact prices</span></li>
+          <li data-key="s5" onclick="toggleCheck(this)"><span class="check-icon"></span><span>单根K线只是信号，必须等确认 | Single candle = signal, wait for confirmation</span></li>
+          <li data-key="s6" onclick="toggleCheck(this)"><span class="check-icon"></span><span>支撑判断4法：多次触底、放量反转、前阻变支撑、低点抬高</span></li>
         </ul>
       </div>
 
-      <p style="text-align:center; color: var(--text2); margin-top: 32px; font-size: 13px;">
-        Day 2: 支撑与阻力 Support & Resistance — Coming Soon 🔜
-      </p>
+      <!-- Footer -->
+      <div class="site-footer">
+        <div class="footer-powered">Powered by <span>爻</span> × Claude | Built with real OKX DEX data</div>
+        <div class="next-lesson-card">
+          <div class="next-label">Next Lesson</div>
+          <div class="next-title">Day 2: 支撑与阻力 Support & Resistance</div>
+          <div class="next-sub">深入学习如何画出精准的支撑阻力区域 | Deep dive into drawing precise S/R zones</div>
+          <div class="countdown" id="nextCountdown">Loading...</div>
+        </div>
+      </div>
     </div>
   </main>
 </div>
 
 <script>
-// BTC Chart
+// ============ BTC Chart ============
 const chart = LightweightCharts.createChart(document.getElementById('btc-chart'), {
-  layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' },
+  layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: "'Inter', 'Noto Sans SC', sans-serif" },
   grid: { vertLines: { color: '#1e2d4a' }, horzLines: { color: '#1e2d4a' } },
   crosshair: { mode: 0 },
   timeScale: { borderColor: '#2a3a5c', timeVisible: false },
@@ -490,11 +1093,170 @@ candleSeries.setMarkers([
 
 chart.timeScale().fitContent();
 
-// Responsive
+// Responsive chart
 new ResizeObserver(() => {
   const el = document.getElementById('btc-chart');
-  chart.applyOptions({ width: el.clientWidth, height: el.clientHeight });
+  if (el.offsetParent !== null) {
+    chart.applyOptions({ width: el.clientWidth, height: el.clientHeight });
+  }
 }).observe(document.getElementById('btc-chart'));
+
+// ============ Chart Tabs ============
+document.querySelectorAll('.chart-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.chart-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    const tf = this.dataset.tf;
+    const chartBox = document.getElementById('btc-chart');
+    const comingMsg = document.getElementById('chart-coming');
+    if (tf === '1D') {
+      chartBox.style.display = 'block';
+      comingMsg.style.display = 'none';
+      chart.timeScale().fitContent();
+    } else {
+      chartBox.style.display = 'none';
+      comingMsg.style.display = 'flex';
+    }
+  });
+});
+
+// ============ Quiz ============
+let quizViewed = 0;
+function revealAnswer(btn) {
+  const answer = btn.nextElementSibling;
+  if (!answer.classList.contains('show')) {
+    answer.classList.add('show');
+    if (!btn.classList.contains('viewed')) {
+      btn.classList.add('viewed');
+      btn.textContent = '\u2713 已查看';
+      quizViewed++;
+      document.getElementById('quizScore').textContent = quizViewed;
+    }
+  } else {
+    answer.classList.remove('show');
+  }
+}
+
+// ============ Summary Checklist with localStorage ============
+function loadChecklist() {
+  const saved = JSON.parse(localStorage.getItem('yao-d1-checklist') || '{}');
+  document.querySelectorAll('#summaryList li').forEach(li => {
+    if (saved[li.dataset.key]) {
+      li.classList.add('checked');
+      li.querySelector('.check-icon').textContent = '\u2713';
+    }
+  });
+  updateMasteredCount();
+}
+
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+  const icon = li.querySelector('.check-icon');
+  icon.textContent = li.classList.contains('checked') ? '\u2713' : '';
+  saveChecklist();
+  updateMasteredCount();
+}
+
+function saveChecklist() {
+  const state = {};
+  document.querySelectorAll('#summaryList li').forEach(li => {
+    state[li.dataset.key] = li.classList.contains('checked');
+  });
+  localStorage.setItem('yao-d1-checklist', JSON.stringify(state));
+}
+
+function updateMasteredCount() {
+  const count = document.querySelectorAll('#summaryList li.checked').length;
+  document.getElementById('masteredCount').textContent = count;
+}
+
+loadChecklist();
+
+// ============ Scroll Animations (IntersectionObserver) ============
+const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -40px 0px' };
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Stagger children
+      const children = entry.target.querySelectorAll('.concept-card, .pattern-card, .sr-method, .anno');
+      children.forEach((child, i) => {
+        child.style.transitionDelay = (i * 0.08) + 's';
+        // Force reflow then make visible via parent
+      });
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.section').forEach(s => sectionObserver.observe(s));
+
+// Day header
+const headerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, observerOptions);
+document.querySelectorAll('.day-header, .summary-box').forEach(el => headerObserver.observe(el));
+
+// ============ Scroll Spy ============
+const sectionIds = ['day-header', 'section-1', 'section-2', 'section-3', 'section-4', 'section-5'];
+const spyObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      // For now, Day 1 is the only active nav item
+      // In a multi-day version this would highlight the correct nav item
+    }
+  });
+}, { threshold: 0.3 });
+sectionIds.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) spyObserver.observe(el);
+});
+
+// ============ Hamburger Menu (Mobile) ============
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('sidebarOverlay');
+
+hamburgerBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('show');
+  hamburgerBtn.classList.toggle('active');
+});
+
+overlay.addEventListener('click', () => {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('show');
+  hamburgerBtn.classList.remove('active');
+});
+
+// Close sidebar on nav click (mobile)
+document.querySelectorAll('.nav-item:not(.locked)').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+      hamburgerBtn.classList.remove('active');
+    }
+  });
+});
+
+// ============ Next Lesson Countdown ============
+function updateCountdown() {
+  const now = new Date();
+  const tomorrow = new Date(now);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+  const diff = tomorrow - now;
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+  document.getElementById('nextCountdown').textContent =
+    'Unlocks in ' + hours + 'h ' + mins + 'm ' + secs + 's';
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
