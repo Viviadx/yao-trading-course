@@ -1,0 +1,10 @@
+{
+  "name": "yao-trading-course",
+  "version": "1.0.0",
+  "private": true,
+  "description": "爻の30天交易入门课 | Yao's 30-Day Trading Course",
+  "scripts": {
+    "dev": "bun --bun run serve.ts",
+    "build": "bun run build.ts"
+  }
+}

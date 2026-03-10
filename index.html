@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>爻の30天交易入门课 | Yao's 30-Day Trading Course</title>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root {
+  --bg: #0f0f1a;
+  --card: #16213e;
+  --card2: #1a2744;
+  --accent: #00d4aa;
+  --accent2: #42a5f5;
+  --green: #26a69a;
+  --red: #ef5350;
+  --yellow: #ffa726;
+  --text: #e8e8e8;
+  --text2: #9aa5b4;
+  --border: #2a3a5c;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'SF Pro', 'Segoe UI', sans-serif; line-height: 1.7; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Layout */
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 280px; background: var(--card); border-right: 1px solid var(--border); padding: 24px 0; position: fixed; height: 100vh; overflow-y: auto; z-index: 10; }
+.sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+.sidebar-header h1 { font-size: 18px; color: var(--accent); }
+.sidebar-header p { font-size: 12px; color: var(--text2); margin-top: 4px; }
+.nav-section { padding: 0 12px; margin-bottom: 16px; }
+.nav-section h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text2); padding: 0 8px; margin-bottom: 8px; }
+.nav-item { display: block; padding: 8px 12px; border-radius: 8px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.2s; }
+.nav-item:hover { background: var(--card2); color: var(--text); text-decoration: none; }
+.nav-item.active { background: rgba(0,212,170,0.12); color: var(--accent); font-weight: 600; }
+.nav-item .day-num { font-size: 11px; color: var(--text2); margin-right: 6px; }
+.nav-item.locked { opacity: 0.4; cursor: default; }
+.nav-item .badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-left: 6px; }
+.badge.new { background: rgba(0,212,170,0.2); color: var(--accent); }
+.badge.soon { background: rgba(255,167,38,0.2); color: var(--yellow); }
+
+.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; }
+
+/* Content */
+.day-header { margin-bottom: 32px; }
+.day-header .day-label { font-size: 13px; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.day-header h2 { font-size: 28px; font-weight: 700; margin-top: 4px; }
+.day-header .subtitle { font-size: 14px; color: var(--text2); margin-top: 4px; }
+
+.section { margin-bottom: 36px; }
+.section h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.bilingual { font-size: 13px; color: var(--accent2); font-weight: 400; }
+
+.concept-card { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid var(--border); }
+.concept-card h4 { font-size: 15px; margin-bottom: 6px; }
+.concept-card .en { font-size: 12px; color: var(--accent2); font-weight: 400; margin-left: 8px; }
+.concept-card p { font-size: 14px; color: var(--text2); }
+.concept-card .highlight { color: var(--text); font-weight: 500; }
+.concept-card .key { display: inline-block; background: rgba(0,212,170,0.1); color: var(--accent); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-top: 8px; }
+
+.chart-container { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
+.chart-container .chart-title { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+.chart-box { height: 420px; border-radius: 8px; overflow: hidden; }
+
+.annotation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+.anno { background: var(--card); border-radius: 10px; padding: 16px; border-left: 4px solid; }
+.anno.green { border-color: var(--green); }
+.anno.red { border-color: var(--red); }
+.anno.blue { border-color: var(--accent2); }
+.anno.yellow { border-color: var(--yellow); }
+.anno h4 { font-size: 14px; margin-bottom: 4px; }
+.anno p { font-size: 13px; color: var(--text2); }
+
+/* K-line patterns */
+.pattern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pattern-card { background: var(--card); border-radius: 10px; padding: 20px; text-align: center; border: 1px solid var(--border); }
+.pattern-card h4 { font-size: 14px; margin-bottom: 2px; }
+.pattern-card .en-name { font-size: 11px; color: var(--accent2); margin-bottom: 10px; }
+.pattern-card svg { display: block; margin: 0 auto 10px; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.tag.bullish { background: rgba(38,166,154,0.15); color: var(--green); }
+.tag.bearish { background: rgba(239,83,80,0.15); color: var(--red); }
+.tag.neutral { background: rgba(66,165,245,0.15); color: var(--accent2); }
+.pattern-card p { font-size: 12px; color: var(--text2); margin-top: 8px; line-height: 1.5; }
+
+/* Support/Resistance section */
+.sr-method { background: var(--card); border-radius: 12px; padding: 20px; margin-bottom: 12px; border: 1px solid var(--border); display: flex; gap: 16px; align-items: flex-start; }
+.sr-num { background: var(--accent); color: var(--bg); width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.sr-method h4 { font-size: 14px; margin-bottom: 4px; }
+.sr-method .en-label { font-size: 12px; color: var(--accent2); }
+.sr-method p { font-size: 13px; color: var(--text2); margin-top: 6px; }
+
+/* Quiz */
+.quiz { background: var(--card2); border-radius: 12px; padding: 24px; border: 1px solid var(--border); }
+.quiz h3 { font-size: 16px; margin-bottom: 16px; }
+.quiz-item { margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.quiz-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.quiz-item .q { font-size: 14px; margin-bottom: 8px; }
+.quiz-item .q strong { color: var(--accent); }
+.quiz-item .answer { font-size: 13px; color: var(--text2); background: var(--card); border-radius: 8px; padding: 12px; display: none; }
+.quiz-item .answer.show { display: block; }
+.quiz-item .answer .correct { color: var(--green); font-weight: 500; }
+.quiz-item .answer .wrong { color: var(--red); font-weight: 500; }
+.show-btn { background: rgba(0,212,170,0.12); color: var(--accent); border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: 600; }
+.show-btn:hover { background: rgba(0,212,170,0.2); }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+th { text-align: left; padding: 8px 12px; background: var(--card2); color: var(--text2); font-weight: 600; border-bottom: 1px solid var(--border); }
+td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* Summary */
+.summary-box { background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(66,165,245,0.08)); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-top: 24px; }
+.summary-box h4 { font-size: 15px; margin-bottom: 10px; }
+.summary-box ul { list-style: none; }
+.summary-box li { font-size: 13px; padding: 4px 0; color: var(--text2); }
+.summary-box li::before { content: "✦ "; color: var(--accent); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 20px; }
+  .annotation-grid { grid-template-columns: 1fr; }
+  .pattern-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h1>爻の交易课</h1>
+      <p>Yao's 30-Day Trading Course</p>
+    </div>
+
+    <div class="nav-section">
+      <h3>Week 1 · K线与趋势</h3>
+      <a class="nav-item active" href="#day1" onclick="showDay('day1')">
+        <span class="day-num">D1</span> K线基础 Candlestick Basics <span class="badge new">NEW</span>
+      </a>
+      <a class="nav-item locked">
+        <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge soon">SOON</span>
+      </a>
+      <a class="nav-item locked"><span class="day-num">D3</span> 趋势线与通道 Trendlines</a>
+      <a class="nav-item locked"><span class="day-num">D4</span> 均线系统 Moving Averages</a>
+      <a class="nav-item locked"><span class="day-num">D5</span> 成交量 Volume Analysis</a>
+      <a class="nav-item locked"><span class="day-num">D6</span> 趋势转折识别 Trend Reversal</a>
+      <a class="nav-item locked"><span class="day-num">D7</span> 周测验 Weekly Quiz</a>
+    </div>
+
+    <div class="nav-section">
+      <h3>Week 2 · 指标与系统</h3>
+      <a class="nav-item locked"><span class="day-num">D8</span> RSI 相对强弱指标</a>
+      <a class="nav-item locked"><span class="day-num">D9</span> MACD 指标</a>
+      <a class="nav-item locked"><span class="day-num">D10</span> 布林带 Bollinger Bands</a>
+      <a class="nav-item locked"><span class="day-num">D11</span> 斐波那契 Fibonacci</a>
+      <a class="nav-item locked"><span class="day-num">D12</span> 止损止盈 Stop Loss & Take Profit</a>
+      <a class="nav-item locked"><span class="day-num">D13</span> 仓位管理 Position Sizing</a>
+      <a class="nav-item locked"><span class="day-num">D14</span> 周测验 Weekly Quiz</a>
+    </div>
+
+    <div class="nav-section">
+      <h3>Week 3 · 链上分析</h3>
+      <a class="nav-item locked"><span class="day-num">D15</span> 链上分析入门 On-Chain Intro</a>
+      <a class="nav-item locked"><span class="day-num">D16</span> Smart Money 追踪</a>
+      <a class="nav-item locked"><span class="day-num">D17</span> 代币安全分析 Token Safety</a>
+      <a class="nav-item locked"><span class="day-num">D18</span> DEX 数据分析</a>
+      <a class="nav-item locked"><span class="day-num">D19</span> 链上指标 On-Chain Metrics</a>
+      <a class="nav-item locked"><span class="day-num">D20</span> 信号实战 Signal Trading</a>
+      <a class="nav-item locked"><span class="day-num">D21</span> 周测验 Weekly Quiz</a>
+    </div>
+
+    <div class="nav-section">
+      <h3>Week 4 · 实战综合</h3>
+      <a class="nav-item locked"><span class="day-num">D22-30</span> 综合实战 Live Trading</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div id="day1">
+      <!-- Day Header -->
+      <div class="day-header">
+        <div class="day-label">Day 1 of 30</div>
+        <h2>K线基础 <span class="bilingual">Candlestick Basics</span></h2>
+        <div class="subtitle">学会读懂每一根K线 — 这是所有技术分析的基础 | Learn to read every candlestick — the foundation of all technical analysis</div>
+      </div>
+
+      <!-- Section 1: What is a Candlestick -->
+      <div class="section">
+        <h3>一、什么是K线？ <span class="bilingual">What is a Candlestick?</span></h3>
+
+        <div class="concept-card">
+          <h4>K线的4个要素 <span class="en">4 Elements of a Candlestick</span></h4>
+          <table>
+            <tr><th>中文</th><th>English</th><th>含义</th></tr>
+            <tr><td>开盘价</td><td>Open</td><td>这段时间开始的价格</td></tr>
+            <tr><td>收盘价</td><td>Close</td><td>这段时间结束的价格</td></tr>
+            <tr><td>最高价</td><td>High</td><td>这段时间内的最高价</td></tr>
+            <tr><td>最低价</td><td>Low</td><td>这段时间内的最低价</td></tr>
+            <tr><td>阳线</td><td>Bullish Candle</td><td>收盘 > 开盘 = 涨了（绿色）</td></tr>
+            <tr><td>阴线</td><td>Bearish Candle</td><td>收盘 < 开盘 = 跌了（红色）</td></tr>
+            <tr><td>上影线</td><td>Upper Wick/Shadow</td><td>实体上方的线 = 冲高被打回</td></tr>
+            <tr><td>下影线</td><td>Lower Wick/Shadow</td><td>实体下方的线 = 下跌被拉回</td></tr>
+            <tr><td>实体</td><td>Body</td><td>开盘价和收盘价之间的部分</td></tr>
+          </table>
+          <div class="key">记住：影线长 = 那个方向被拒绝了 | Long wick = rejection in that direction</div>
+        </div>
+      </div>
+
+      <!-- Section 2: Live Chart -->
+      <div class="section">
+        <h3>二、实盘解读 <span class="bilingual">Live Chart Analysis</span></h3>
+        <div class="chart-container">
+          <div class="chart-title">BTC/USDT 日线 Daily | 2026.02.25 - 2026.03.10 | 数据来源: OKX DEX</div>
+          <div class="chart-box" id="btc-chart"></div>
+        </div>
+
+        <div class="annotation-grid">
+          <div class="anno green">
+            <h4>🟢 3/4 放量大阳线 Bullish Engulfing +8.6%</h4>
+            <p>Open $67,579 → Close $73,367<br>Volume $215.7M（全期最大 highest）<br><strong>大资金集中买入 = 真突破</strong><br>Institutional buying = real breakout</p>
+          </div>
+          <div class="anno red">
+            <h4>🔴 3/5 射击之星 Shooting Star</h4>
+            <p>High $74,994 但收 $71,386<br>长上影线 Long upper wick<br><strong>$75K 附近有强阻力</strong><br>Strong resistance near $75K</p>
+          </div>
+          <div class="anno blue">
+            <h4>🔵 支撑区 Support Zone $62K-$64K</h4>
+            <p>2/25, 2/28, 3/1 多次止跌反弹<br>Multiple bounces = strong support<br><strong>反复测试不破 = 强支撑</strong><br>Tested and held = reliable floor</p>
+          </div>
+          <div class="anno yellow">
+            <h4>🟡 3/7-3/8 缩量横盘 Low Volume Consolidation</h4>
+            <p>跌幅仅 -1%, Vol $41-43M（最低）<br>Smallest decline, lowest volume<br><strong>抛压衰竭，可能止跌</strong><br>Selling exhaustion, potential bottom</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Support & Resistance Methods -->
+      <div class="section">
+        <h3>三、支撑区判断方法 <span class="bilingual">How to Identify Support Zones</span></h3>
+
+        <div class="sr-method">
+          <div class="sr-num">1</div>
+          <div>
+            <h4>多次触底不破 <span class="en-label">Multiple Bounces</span></h4>
+            <p>价格多次跌到某个区域又弹回来 = 支撑区。BTC 在 $62K-$64K 反复止跌（2/25, 2/28, 3/1）。<br>
+            <em>Price bounces off the same level multiple times = support zone.</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">2</div>
+          <div>
+            <h4>放量反转区 <span class="en-label">High Volume Reversal Zone</span></h4>
+            <p>在某个价格大量成交后反转 = 有大买单堆积。3/4 在 $66K-$67K 放量拉起 → 新支撑。<br>
+            <em>Heavy volume at a price level followed by reversal = big buyers stepped in.</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">3</div>
+          <div>
+            <h4>前阻力变支撑 <span class="en-label">Previous Resistance Becomes Support</span></h4>
+            <p>突破阻力后，原来的阻力变成支撑（角色互换）。3/4 突破 $70K → 回调到 $70K 不破就是新支撑。<br>
+            <em>Once broken, resistance flips to support (role reversal).</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">4</div>
+          <div>
+            <h4>抬高的低点 <span class="en-label">Higher Lows in Uptrend</span></h4>
+            <p>每次回调的低点越来越高 = 上升趋势中的动态支撑。2/28 低 $62,011 → 3/2 低 $63,864 → 低点在抬高。<br>
+            <em>Each pullback low is higher than the last = dynamic support in uptrend.</em></p>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <h4>BTC 当前支撑阻力图谱 <span class="en">Current S/R Map</span></h4>
+          <table>
+            <tr><th>级别 Level</th><th>区域 Zone</th><th>依据 Basis</th></tr>
+            <tr><td style="color:#26a69a">强支撑 Strong Support</td><td>$62,000 - $64,000</td><td>多次触底不破 Multiple bounces</td></tr>
+            <tr><td style="color:#26a69a">次支撑 Minor Support</td><td>$67,000 - $68,000</td><td>放量起涨点 Volume launchpad</td></tr>
+            <tr><td style="color:#ef5350">次阻力 Minor Resistance</td><td>$72,000 - $73,000</td><td>3/4 收盘区 Breakout close</td></tr>
+            <tr><td style="color:#ef5350">强阻力 Strong Resistance</td><td>$74,000 - $75,000</td><td>3/5 冲高回落 Shooting star high</td></tr>
+          </table>
+          <div class="key">关键原则：支撑和阻力是"区域"而非精确价格 | S/R are zones, not exact prices</div>
+        </div>
+      </div>
+
+      <!-- Section 4: 6 Patterns -->
+      <div class="section">
+        <h3>四、6种必学K线形态 <span class="bilingual">6 Essential Candlestick Patterns</span></h3>
+        <div class="pattern-grid">
+          <div class="pattern-card">
+            <h4>大阳线 / 大阴线</h4>
+            <div class="en-name">Marubozu / Long Body</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="22" y1="5" x2="22" y2="20" stroke="#26a69a" stroke-width="2"/>
+              <rect x="13" y="20" width="18" height="55" fill="#26a69a" rx="2"/>
+              <line x1="22" y1="75" x2="22" y2="95" stroke="#26a69a" stroke-width="2"/>
+              <line x1="62" y1="5" x2="62" y2="20" stroke="#ef5350" stroke-width="2"/>
+              <rect x="53" y="20" width="18" height="55" fill="#ef5350" rx="2"/>
+              <line x1="62" y1="75" x2="62" y2="95" stroke="#ef5350" stroke-width="2"/>
+            </svg>
+            <span class="tag neutral">趋势延续 Continuation</span>
+            <p>实体越长力量越大<br>Long body = strong momentum<br>配合放量 = 真趋势</p>
+          </div>
+          <div class="pattern-card">
+            <h4>锤子线</h4>
+            <div class="en-name">Hammer</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="18" stroke="#26a69a" stroke-width="2"/>
+              <rect x="36" y="18" width="18" height="14" fill="#26a69a" rx="2"/>
+              <line x1="45" y1="32" x2="45" y2="92" stroke="#26a69a" stroke-width="2"/>
+            </svg>
+            <span class="tag bullish">底部反转 Bullish Reversal</span>
+            <p>长下影线 Long lower wick<br>跌了被拉回 = 有买盘<br>出现在底部 = 看涨</p>
+          </div>
+          <div class="pattern-card">
+            <h4>射击之星</h4>
+            <div class="en-name">Shooting Star</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="68" stroke="#ef5350" stroke-width="2"/>
+              <rect x="36" y="68" width="18" height="14" fill="#ef5350" rx="2"/>
+              <line x1="45" y1="82" x2="45" y2="92" stroke="#ef5350" stroke-width="2"/>
+            </svg>
+            <span class="tag bearish">顶部反转 Bearish Reversal</span>
+            <p>长上影线 Long upper wick<br>冲高被打回 = 有卖压<br>出现在顶部 = 看跌</p>
+          </div>
+          <div class="pattern-card">
+            <h4>十字星</h4>
+            <div class="en-name">Doji</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="92" stroke="#42a5f5" stroke-width="2"/>
+              <rect x="34" y="47" width="22" height="4" fill="#42a5f5" rx="1"/>
+            </svg>
+            <span class="tag neutral">犹豫 Indecision</span>
+            <p>开盘 ≈ 收盘 Open ≈ Close<br>多空均衡 Bulls = Bears<br>趋势末端 = 可能变盘</p>
+          </div>
+          <div class="pattern-card">
+            <h4>看涨吞没</h4>
+            <div class="en-name">Bullish Engulfing</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <rect x="18" y="30" width="15" height="28" fill="#ef5350" rx="2"/>
+              <line x1="25" y1="22" x2="25" y2="30" stroke="#ef5350" stroke-width="2"/>
+              <line x1="25" y1="58" x2="25" y2="68" stroke="#ef5350" stroke-width="2"/>
+              <rect x="44" y="18" width="20" height="55" fill="#26a69a" rx="2"/>
+              <line x1="54" y1="8" x2="54" y2="18" stroke="#26a69a" stroke-width="2"/>
+              <line x1="54" y1="73" x2="54" y2="88" stroke="#26a69a" stroke-width="2"/>
+            </svg>
+            <span class="tag bullish">强反转 Strong Reversal</span>
+            <p>大阳线吞没前阴线<br>Bullish candle engulfs bearish<br>买方压倒卖方</p>
+          </div>
+          <div class="pattern-card">
+            <h4>孕线</h4>
+            <div class="en-name">Harami / Inside Bar</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <rect x="16" y="12" width="20" height="65" fill="#26a69a" rx="2"/>
+              <line x1="26" y1="5" x2="26" y2="12" stroke="#26a69a" stroke-width="2"/>
+              <line x1="26" y1="77" x2="26" y2="92" stroke="#26a69a" stroke-width="2"/>
+              <rect x="50" y="30" width="15" height="24" fill="#ef5350" rx="2"/>
+              <line x1="57" y1="24" x2="57" y2="30" stroke="#ef5350" stroke-width="2"/>
+              <line x1="57" y1="54" x2="57" y2="62" stroke="#ef5350" stroke-width="2"/>
+            </svg>
+            <span class="tag neutral">蓄势 Consolidation</span>
+            <p>小线被大线包住<br>Small bar inside large bar<br>等突破方向 Wait for breakout</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 5: Quiz -->
+      <div class="section">
+        <h3>五、Day 1 练习 <span class="bilingual">Quiz</span></h3>
+        <div class="quiz">
+          <div class="quiz-item">
+            <div class="q"><strong>Q1:</strong> 3/4 那根大阳线（+8.6%）是什么形态？配合成交量说明了什么？<br><em>What pattern is the 3/4 candle (+8.6%)? What does the volume tell us?</em></div>
+            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 正确答案：大阳线 / Bullish Marubozu</p>
+              <p>实体长、影线短、涨幅8.6%，配合全期最大成交量 $215M = <strong>放量突破 (Volume Breakout)</strong>。大资金在集中买入，是真突破不是假突破。</p>
+              <p class="wrong">❌ 常见错误：误认为射击之星（Shooting Star）。射击之星是长上影线 + 小实体，3/5 才是接近射击之星的形态。</p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q2:</strong> 3/5 的K线有什么特征？<br><em>What's special about the 3/5 candle?</em></div>
+            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 长上影线 (Long Upper Wick)，接近射击之星 (Shooting Star)</p>
+              <p>最高 $74,994 但收 $71,386（低于开盘 $73,367），是<strong>阴线</strong>不是阳线。冲到 $75K 被卖回来 = 上方有强阻力 (Strong Resistance)。</p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q3:</strong> BTC 当前的支撑位和阻力位大概在哪？<br><em>Where are the current support and resistance levels?</em></div>
+            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 支撑 Support: $62,000-$64,000 | 阻力 Resistance: $74,000-$75,000</p>
+              <p>支撑：多次在 $62K-$64K 止跌反弹。阻力：3/5 冲到 $74,994 回落，$75K 是明确天花板。中间 $67K-$68K 是次级支撑。</p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q4:</strong> 如果明天 BTC 在 $66,000 出现锤子线 (Hammer)，你怎么看？<br><em>If BTC forms a Hammer at $66,000 tomorrow, what do you think?</em></div>
+            <button class="show-btn" onclick="this.nextElementSibling.classList.toggle('show')">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 支撑区附近的反转信号 — 但需要等确认</p>
+              <p>$66K 靠近次支撑区 ($67-68K 下方)，锤子线 = 潜在做多信号。但必须<strong>等确认 (Wait for Confirmation)</strong>：<br>
+              → 第二天收阳线 = 确认，可轻仓做多<br>
+              → 继续跌破 $62K = 支撑失败，不能接<br>
+              <strong>永远不要只凭一根K线做决定！</strong> Never trade on a single candle!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary-box">
+        <h4>📝 Day 1 核心要点 Key Takeaways</h4>
+        <ul>
+          <li>收盘 > 开盘 = 阳线 (Bullish)，收盘 < 开盘 = 阴线 (Bearish)</li>
+          <li>影线长 = 那个方向被拒绝 | Long wick = rejection in that direction</li>
+          <li>放量 + 大阳线 = 真突破 | High volume + long bullish = real breakout</li>
+          <li>支撑/阻力是区域不是精确价格 | S/R are zones, not exact prices</li>
+          <li>单根K线只是信号，必须等确认 | Single candle = signal, wait for confirmation</li>
+          <li>支撑判断4法：多次触底、放量反转、前阻变支撑、低点抬高</li>
+        </ul>
+      </div>
+
+      <p style="text-align:center; color: var(--text2); margin-top: 32px; font-size: 13px;">
+        Day 2: 支撑与阻力 Support & Resistance — Coming Soon 🔜
+      </p>
+    </div>
+  </main>
+</div>
+
+<script>
+// BTC Chart
+const chart = LightweightCharts.createChart(document.getElementById('btc-chart'), {
+  layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: '-apple-system, BlinkMacSystemFont, sans-serif' },
+  grid: { vertLines: { color: '#1e2d4a' }, horzLines: { color: '#1e2d4a' } },
+  crosshair: { mode: 0 },
+  timeScale: { borderColor: '#2a3a5c', timeVisible: false },
+  rightPriceScale: { borderColor: '#2a3a5c' },
+});
+
+const candleSeries = chart.addCandlestickSeries({
+  upColor: '#26a69a', downColor: '#ef5350',
+  borderUpColor: '#26a69a', borderDownColor: '#ef5350',
+  wickUpColor: '#26a69a', wickDownColor: '#ef5350',
+});
+
+const rawData = [
+  [1771948800,"63845.24","68565.56","62927.02","67252.34","95513471"],
+  [1772035200,"67252.34","70822.14","65794.74","67189.28","128873169"],
+  [1772121600,"67189.28","68807.26","64352.80","65959.21","98047319"],
+  [1772208000,"65959.21","66970.47","62011.37","64697.63","86441871"],
+  [1772294400,"64697.63","68540.03","63959.10","66676.51","107114249"],
+  [1772380800,"66676.51","69853.36","63864.11","68938.66","129825204"],
+  [1772467200,"68938.66","70492.59","65564.26","67578.87","139758535"],
+  [1772553600,"67578.87","73522.01","66148.26","73367.41","215685479"],
+  [1772640000,"73367.41","74994.15","69949.73","71385.89","130868491"],
+  [1772726400,"71385.89","72150.55","67426.57","68381.65","113703850"],
+  [1772812800,"68381.65","69644.08","66173.73","67717.82","43797866"],
+  [1772899200,"67717.82","68836.09","65232.06","67006.65","41323572"],
+  [1772985600,"67006.65","70208.14","64717.58","68724.33","116249767"],
+  [1773072000,"68724.33","72145.54","66623.08","69652.21","79569236"],
+];
+
+const data = rawData.map(d => ({ time: d[0], open: +d[1], high: +d[2], low: +d[3], close: +d[4] }));
+candleSeries.setData(data);
+
+const volumeSeries = chart.addHistogramSeries({ priceFormat: { type: 'volume' }, priceScaleId: '' });
+volumeSeries.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+const volData = rawData.map(d => ({ time: d[0], value: +d[5], color: +d[4] >= +d[1] ? 'rgba(38,166,154,0.4)' : 'rgba(239,83,80,0.4)' }));
+volumeSeries.setData(volData);
+
+candleSeries.setMarkers([
+  { time: 1772553600, position: 'aboveBar', color: '#26a69a', shape: 'arrowUp', text: 'Bullish Marubozu +8.6%' },
+  { time: 1772640000, position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Shooting Star' },
+  { time: 1772812800, position: 'belowBar', color: '#ffa726', shape: 'circle', text: 'Low Vol' },
+  { time: 1772899200, position: 'belowBar', color: '#ffa726', shape: 'circle', text: 'Low Vol' },
+]);
+
+chart.timeScale().fitContent();
+
+// Responsive
+new ResizeObserver(() => {
+  const el = document.getElementById('btc-chart');
+  chart.applyOptions({ width: el.clientWidth, height: el.clientHeight });
+}).observe(document.getElementById('btc-chart'));
+</script>
+</body>
+</html>
