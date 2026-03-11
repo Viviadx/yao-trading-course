@@ -66,7 +66,7 @@ a:hover { text-decoration: underline; }
 }
 .top-progress-bar .fill {
   height: 100%;
-  width: calc(1 / 30 * 100%);
+  width: calc(2 / 30 * 100%);
   background: linear-gradient(90deg, var(--accent), var(--accent2));
   border-radius: 0 2px 2px 0;
   transition: width 0.6s ease;
@@ -141,7 +141,7 @@ a:hover { text-decoration: underline; }
   stroke-width: 3;
   stroke-linecap: round;
   stroke-dasharray: 113.1;
-  stroke-dashoffset: calc(113.1 - 113.1 * 1 / 30);
+  stroke-dashoffset: calc(113.1 - 113.1 * 2 / 30);
   transition: stroke-dashoffset 0.8s ease;
 }
 .progress-ring-label {
@@ -655,7 +655,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 <!-- Top progress bar -->
 <div class="top-progress-bar">
   <div class="fill"></div>
-  <div class="label">1/30 days completed</div>
+  <div class="label">2/30 days completed</div>
 </div>
 
 <!-- Hamburger button (mobile) -->
@@ -690,22 +690,22 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <circle class="bg" cx="22" cy="22" r="18"/>
           <circle class="fg" cx="22" cy="22" r="18"/>
         </svg>
-        <div class="progress-ring-label">1/30</div>
+        <div class="progress-ring-label">2/30</div>
       </div>
       <div class="progress-info">
         <div class="p-title">Course Progress</div>
-        <div class="p-sub">3.3% complete</div>
+        <div class="p-sub">6.7% complete</div>
       </div>
     </div>
 
     <div class="sidebar-nav-content">
       <div class="nav-section">
         <h3>Week 1 · K线与趋势</h3>
-        <a class="nav-item active" href="#day1" data-section="day-header">
-          <span class="day-num">D1</span> K线基础 Candlestick Basics <span class="badge new">NEW</span>
+        <a class="nav-item" href="#day1" data-section="day-header">
+          <span class="day-num">D1</span> K线基础 Candlestick Basics
         </a>
-        <a class="nav-item locked">
-          <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge soon">SOON</span>
+        <a class="nav-item active" href="#day2" data-section="day2-header">
+          <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge new">NEW</span>
         </a>
         <a class="nav-item locked"><span class="day-num">D3</span> 趋势线与通道 Trendlines</a>
         <a class="nav-item locked"><span class="day-num">D4</span> 均线系统 Moving Averages</a>
@@ -743,7 +743,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </div>
 
     <div class="sidebar-bottom">
-      Day 1 · 2026.03.10
+      Day 2 · 2026.03.11
     </div>
   </nav>
 
@@ -1029,13 +1029,296 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         </ul>
       </div>
 
+    </div>
+
+    <!-- ==================== DAY 2 ==================== -->
+    <div id="day2">
+      <div class="day-header" id="day2-header">
+        <div class="day-label">Day 2 of 30</div>
+        <h2>支撑与阻力 <span class="bilingual">Support & Resistance</span></h2>
+        <div class="subtitle">价格记忆的秘密 — 学会画出市场的地板和天花板 | The secret of price memory — learn to draw the market's floor and ceiling</div>
+      </div>
+
+      <!-- Section 1: Definitions -->
+      <div class="section" id="d2-section-1">
+        <h3>一、什么是支撑与阻力？ <span class="bilingual">What are Support & Resistance?</span></h3>
+
+        <div class="concept-card">
+          <h4>核心定义 <span class="en">Core Definitions</span></h4>
+          <table>
+            <tr><th>中文</th><th>English</th><th>含义 Meaning</th></tr>
+            <tr><td>支撑 (Support)</td><td>Support Level</td><td>价格下跌到这里就容易止跌反弹 — 像地板<br>Price tends to stop falling and bounce here — like a floor</td></tr>
+            <tr><td>阻力 (Resistance)</td><td>Resistance Level</td><td>价格上涨到这里就容易遇阻回落 — 像天花板<br>Price tends to stop rising and pull back here — like a ceiling</td></tr>
+            <tr><td>支撑区 / 阻力区</td><td>S/R Zone</td><td>不是一条精确的线，而是一个价格范围<br>Not an exact line, but a price range</td></tr>
+            <tr><td>角色互换</td><td>Role Reversal / Polarity Flip</td><td>支撑被跌破 → 变阻力；阻力被突破 → 变支撑<br>Broken support becomes resistance; broken resistance becomes support</td></tr>
+            <tr><td>假突破</td><td>Fakeout / False Breakout</td><td>价格短暂突破后迅速回来 = 陷阱<br>Price briefly breaks through then quickly reverses = trap</td></tr>
+            <tr><td>测试 (Test)</td><td>Retest</td><td>价格回到之前的支撑/阻力区确认有效性<br>Price returns to a previous S/R zone to confirm it still holds</td></tr>
+          </table>
+          <div class="key">核心原则：支撑/阻力被"测试"的次数越多，该区域越重要 | The more times S/R is tested, the more significant it becomes</div>
+        </div>
+
+        <div class="concept-card">
+          <h4>为什么支撑和阻力有效？ <span class="en">Why Does S/R Work?</span></h4>
+          <p><strong>价格记忆 Price Memory：</strong>市场参与者会记住他们在某个价位买入或卖出的经历。<br>
+          Market participants remember the prices where they bought or sold.</p>
+          <p style="margin-top:10px"><strong>三种心理力量 Three Psychological Forces：</strong></p>
+          <table>
+            <tr><th>角色 Role</th><th>在支撑位的行为 Behavior at Support</th></tr>
+            <tr><td>之前在这里买入的人 Prior buyers</td><td>价格回来 → "我是对的，加仓" → 买入增加<br>Price returns → "I was right, add more" → more buying</td></tr>
+            <tr><td>之前在这里卖出的人 Prior sellers</td><td>价格回来 → "后悔卖早了，这次不卖" → 卖压减少<br>Price returns → "I sold too early, won't sell again" → less selling</td></tr>
+            <tr><td>观望的人 Sideliners</td><td>价格回来 → "上次没买，这次买" → 新买入<br>Price returns → "Missed it last time, buying now" → new buying</td></tr>
+          </table>
+          <div class="key">三股力量合一 = 支撑生效 | All three forces combine = support holds</div>
+        </div>
+      </div>
+
+      <!-- Section 2: How to Identify S/R on Charts -->
+      <div class="section" id="d2-section-2">
+        <h3>二、如何在图表上识别支撑与阻力 <span class="bilingual">How to Identify S/R on Charts</span></h3>
+
+        <div class="sr-method">
+          <div class="sr-num">1</div>
+          <div>
+            <h4>水平线法 <span class="en-label">Horizontal Line Method</span></h4>
+            <p>找到价格多次反弹或受阻的水平区域，画一条水平线。<strong>至少2次触及</strong>才有效，3次以上更可靠。<br>
+            <em>Find horizontal zones where price bounced or stalled multiple times. Draw a horizontal line. <strong>At least 2 touches</strong> to be valid, 3+ for reliability.</em></p>
+            <p style="margin-top:8px;color:var(--accent)">操作：在TradingView上用"水平线"工具，连接多个反弹低点（支撑）或回落高点（阻力）。<br>
+            <em>Action: Use the "Horizontal Line" tool on TradingView, connecting bounce lows (support) or rejection highs (resistance).</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">2</div>
+          <div>
+            <h4>整数关口法 <span class="en-label">Round Number / Psychological Level</span></h4>
+            <p>$50,000、$60,000、$70,000、$100,000 等整数位自带心理效应。大量挂单堆积在整数附近。<br>
+            <em>Round numbers like $50K, $60K, $70K, $100K carry psychological weight. Limit orders cluster around these levels.</em></p>
+            <p style="margin-top:8px;color:var(--yellow)">⚠️ 整数关口不是精确的线，通常上下浮动 1-2%。例如 "$70K 阻力" 实际可能在 $69,000-$71,500。<br>
+            <em>Round numbers are not exact — they typically fluctuate ±1-2%. "$70K resistance" might actually be $69,000-$71,500.</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">3</div>
+          <div>
+            <h4>成交量密集区法 <span class="en-label">Volume Profile / High Volume Node</span></h4>
+            <p>成交量最大的价格区域 = 最多人在这里交易 = 强支撑/阻力。可以用 TradingView 的 Volume Profile 指标查看。<br>
+            <em>The price zone with the highest volume = most participants traded here = strong S/R. Use TradingView's Volume Profile indicator.</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">4</div>
+          <div>
+            <h4>K线形态确认法 <span class="en-label">Candlestick Confirmation</span></h4>
+            <p>在潜在支撑位出现<strong>锤子线 (Hammer)</strong>、<strong>看涨吞没 (Bullish Engulfing)</strong> = 支撑被确认。<br>
+            在潜在阻力位出现<strong>射击之星 (Shooting Star)</strong>、<strong>看跌吞没 (Bearish Engulfing)</strong> = 阻力被确认。<br>
+            <em>Hammer / Bullish Engulfing at potential support = support confirmed.<br>
+            Shooting Star / Bearish Engulfing at potential resistance = resistance confirmed.</em></p>
+            <p style="margin-top:8px;color:var(--accent)">💡 这就是 Day 1 和 Day 2 的连接点 — K线形态 + 支撑阻力 = 更高胜率的判断。<br>
+            <em>This connects Day 1 and Day 2 — candlestick patterns + S/R = higher probability analysis.</em></p>
+          </div>
+        </div>
+
+        <div class="sr-method">
+          <div class="sr-num">5</div>
+          <div>
+            <h4>角色互换法 <span class="en-label">Polarity Flip / Role Reversal</span></h4>
+            <p><strong>最重要的概念之一：</strong>当价格突破阻力后回踩该区域，如果不跌破，原来的阻力就变成了新支撑（反之亦然）。<br>
+            <em><strong>One of the most important concepts:</strong> When price breaks above resistance then pulls back to that zone, if it holds, the old resistance becomes new support (and vice versa).</em></p>
+            <p style="margin-top:8px">BTC 实例：3/4 突破 $70K 阻力区后，$70K 附近变成新的支撑区。如果回调到 $70K 止跌 = 角色互换成功。<br>
+            <em>BTC example: After breaking $70K resistance on 3/4, the $70K area becomes new support. If pullback stops at $70K = successful polarity flip.</em></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: BTC Live S/R Analysis -->
+      <div class="section" id="d2-section-3">
+        <h3>三、BTC 实盘支撑阻力分析 <span class="bilingual">Live BTC S/R Analysis</span></h3>
+
+        <div class="concept-card">
+          <h4>📊 当前 BTC 支撑阻力全景图 <span class="en">Current BTC S/R Map (as of 2026.03.11)</span></h4>
+          <table>
+            <tr><th>级别 Level</th><th>区域 Zone</th><th>识别方法 Method</th><th>强度 Strength</th></tr>
+            <tr><td style="color:#26a69a">强支撑 Strong S</td><td>$62,000 - $64,000</td><td>多次触底（2/25, 2/28, 3/1）+ 放量反弹</td><td>⭐⭐⭐ (3次测试)</td></tr>
+            <tr><td style="color:#26a69a">次支撑 Minor S</td><td>$67,000 - $68,000</td><td>3/4 放量起涨点 + 3/10 收盘区</td><td>⭐⭐ (新形成)</td></tr>
+            <tr><td style="color:#42a5f5">角色互换区</td><td>$70,000 - $71,500</td><td>3/4 突破后从阻力变支撑（待确认）</td><td>⭐⭐ (需要 retest)</td></tr>
+            <tr><td style="color:#ef5350">次阻力 Minor R</td><td>$72,000 - $73,500</td><td>3/4, 3/10 收盘区域上沿</td><td>⭐⭐</td></tr>
+            <tr><td style="color:#ef5350">强阻力 Strong R</td><td>$74,000 - $75,000</td><td>3/5 射击之星最高点 + 整数关口</td><td>⭐⭐⭐ (射击之星 + 放量)</td></tr>
+          </table>
+          <div class="key">在 TradingView 上标注这些区域：<a href="https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT" target="_blank">打开 BTC/USDT 图表 →</a></div>
+        </div>
+
+        <div class="annotation-grid">
+          <div class="anno green">
+            <h4>🟢 $62K-$64K 强支撑区 Strong Support Zone</h4>
+            <p><strong>识别方法：多次触底不破 + 放量反弹</strong><br>Multiple bounces + volume confirmation<br>
+            2/25 低 $62,927 → 2/28 低 $62,011 → 3/1 低 $63,864<br>
+            三次跌到这个区域都弹了回来 = 买盘力量强大<br>
+            <em>Three tests held = strong buyer presence</em></p>
+          </div>
+          <div class="anno red">
+            <h4>🔴 $74K-$75K 强阻力区 Strong Resistance Zone</h4>
+            <p><strong>识别方法：射击之星 + 整数关口</strong><br>Shooting star + round number<br>
+            3/5 冲到 $74,994 立刻被打回 $71,386<br>
+            $75K 是重要心理关口，多方无法攻克<br>
+            <em>Bulls couldn't conquer $75K — strong seller defense</em></p>
+          </div>
+          <div class="anno blue">
+            <h4>🔵 $70K 角色互换观察区 Polarity Flip Watch Zone</h4>
+            <p><strong>识别方法：突破后的阻力转支撑</strong><br>Resistance-turned-support after breakout<br>
+            3/4 大阳线突破 $70K → 如果回调到 $70K 不破<br>
+            = 角色互换成功，新支撑确认<br>
+            <em>If pullback holds $70K = flip confirmed, new support</em></p>
+          </div>
+          <div class="anno yellow">
+            <h4>🟡 实操建议 Practical Tips</h4>
+            <p><strong>画线技巧：用"区域"替代"线"</strong><br>Draw zones, not lines<br>
+            在 TradingView 用"矩形"工具画出 S/R 区域<br>
+            颜色建议：支撑区用绿色半透明，阻力区用红色半透明<br>
+            <em>Use rectangle tool, green for support, red for resistance</em></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: S/R Trading Rules -->
+      <div class="section" id="d2-section-4">
+        <h3>四、支撑阻力交易规则 <span class="bilingual">S/R Trading Rules</span></h3>
+
+        <div class="concept-card">
+          <h4>核心交易逻辑 <span class="en">Core Trading Logic</span></h4>
+          <table>
+            <tr><th>场景 Scenario</th><th>操作 Action</th><th>确认信号 Confirmation</th></tr>
+            <tr><td>价格接近支撑区<br>Price near support</td><td>观望，等待K线确认后做多<br>Wait for candlestick confirmation, then long</td><td>锤子线/看涨吞没 + 放量<br>Hammer/Bullish Engulfing + volume</td></tr>
+            <tr><td>价格接近阻力区<br>Price near resistance</td><td>考虑减仓/止盈，不追高<br>Consider taking profit, don't chase</td><td>射击之星/看跌吞没 + 缩量<br>Shooting Star/Bearish Engulfing + declining volume</td></tr>
+            <tr><td>支撑被跌破<br>Support broken</td><td>止损出场，不抄底<br>Stop loss, don't catch falling knife</td><td>收盘价跌破支撑区 + 放量<br>Close below support + high volume</td></tr>
+            <tr><td>阻力被突破<br>Resistance broken</td><td>等回踩确认后进场<br>Wait for pullback retest then enter</td><td>回踩不破 + K线看涨形态<br>Retest holds + bullish candlestick</td></tr>
+          </table>
+          <div class="key">绝对铁律：永远不要在阻力位追高买入，永远不要在支撑位恐慌卖出<br>Iron rule: Never buy at resistance, never panic sell at support</div>
+        </div>
+
+        <div class="concept-card">
+          <h4>⚠️ 常见陷阱 <span class="en">Common Traps</span></h4>
+          <table>
+            <tr><th>陷阱 Trap</th><th>描述 Description</th><th>应对 Solution</th></tr>
+            <tr><td>假突破 Fakeout</td><td>价格短暂突破阻力/跌破支撑后立刻回来</td><td>等收盘价确认，不追突破的影线<br>Wait for close, don't chase wicks</td></tr>
+            <tr><td>预判进场</td><td>还没到支撑就提前买<br>Buying before price reaches support</td><td>等价格到达区域 + K线信号<br>Wait for price to reach zone + signal</td></tr>
+            <tr><td>忽略时间框架</td><td>日线支撑和1小时支撑不同<br>Daily and 1H support are different</td><td>大级别S/R优先，小级别辅助确认<br>Higher timeframe S/R takes priority</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 5: Quiz -->
+      <div class="section" id="d2-section-5">
+        <h3>五、Day 2 练习 <span class="bilingual">Quiz</span></h3>
+
+        <div class="concept-card" style="background: rgba(255,167,38,0.08); border-color: rgba(255,167,38,0.2);">
+          <h4>⚡ Roven 专属备注 <span class="en">Roven's Personal Notes</span></h4>
+          <p><strong>Day 1 你把射击之星 (Shooting Star) 和大阳线 (Marubozu) 搞混了。</strong><br>
+          <em>You confused the Shooting Star with the Marubozu in Day 1.</em></p>
+          <p style="margin-top:10px">快速区分法 Quick Distinction：</p>
+          <table>
+            <tr><th></th><th>大阳线 Marubozu</th><th>射击之星 Shooting Star</th></tr>
+            <tr><td>形状</td><td>实体很长，影线很短<br>Long body, short wicks</td><td>上影线很长，实体很小<br>Long upper wick, small body</td></tr>
+            <tr><td>含义</td><td>强势买入，趋势延续<br>Strong buying, trend continues</td><td>冲高被卖回，顶部危险<br>Rejected at top, bearish warning</td></tr>
+            <tr><td>出现位置</td><td>任何位置（确认方向）<br>Anywhere (confirms direction)</td><td>上涨末端（顶部信号）<br>End of uptrend (top signal)</td></tr>
+            <tr><td>BTC 实例</td><td>3/4 涨 8.6%，实体占90%<br>3/4: +8.6%, body is 90% of range</td><td>3/5 冲 $75K 收 $71.4K，上影线占70%<br>3/5: hit $75K, closed $71.4K, wick is 70%</td></tr>
+          </table>
+          <div class="key">记忆口诀：大阳线 = 身体壮（实体长），射击之星 = 头上长（上影线长）<br>Mnemonic: Marubozu = big body, Shooting Star = long head</div>
+        </div>
+
+        <div class="quiz">
+          <div class="quiz-header">
+            <h3>练习题 Quiz</h3>
+            <div class="quiz-score">你的得分 Your Score: <span id="d2QuizScore">0</span>/5</div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q1:</strong> BTC 在 $62K-$64K 为什么是强支撑区？用了什么识别方法？<br><em>Why is $62K-$64K a strong support zone for BTC? What identification method was used?</em></div>
+            <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 多次触底不破法 Multiple Bounces Method</p>
+              <p>2/25 ($62,927)、2/28 ($62,011)、3/1 ($63,864) 三次跌到该区域都反弹。<strong>3次以上的测试 = 强支撑。</strong>同时伴随放量反弹，说明有大买单在支撑。<br>
+              <em>Three bounces from this zone with volume = strong support. Large buy orders are defending this level.</em></p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q2:</strong> 3/5 那根射击之星出现在 $74,994，告诉我们什么？（这道题帮你巩固 Day 1 的概念）<br><em>The shooting star on 3/5 hit $74,994 — what does it tell us? (Reinforcing Day 1 concepts)</em></div>
+            <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ $74K-$75K 是强阻力区 Strong Resistance</p>
+              <p><strong>射击之星 ≠ 大阳线！</strong>射击之星 = 长上影线 + 小实体，说明冲高被卖回。3/5 从 $73,367 冲到 $74,994 (上影线)，但收在 $71,386 (远低于开盘)。<br>
+              = 卖方在 $75K 附近有大量卖单，阻力很强。<br>
+              <em>Shooting Star ≠ Marubozu! Long upper wick + small body = rejection at top. Sellers are strong at $75K.</em></p>
+              <p class="wrong">❌ 常见错误：看到价格冲高就以为是大阳线（Marubozu）。大阳线的特征是实体长、影线短，3/4 才是大阳线。</p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q3:</strong> 如果 BTC 从 $72K 回调到 $70,000 出现锤子线并止跌，这是什么现象？<br><em>If BTC pulls back from $72K to $70,000 and forms a Hammer that holds, what is this called?</em></div>
+            <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 角色互换 / 极性翻转 Polarity Flip / Role Reversal</p>
+              <p>$70K 之前是阻力区（价格多次在此受阻）。3/4 大阳线突破后，如果回调到 $70K 出现锤子线并止跌 = <strong>原来的阻力变成了新的支撑</strong>。<br>
+              锤子线是K线确认信号（Day 1学的），配合角色互换 = 高概率做多机会。<br>
+              <em>$70K was resistance. After breakout, pullback to $70K with a Hammer = old resistance becomes new support. Hammer (Day 1) + role reversal = high probability long setup.</em></p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q4:</strong> 价格跌破 $62K 支撑区并放量收阴线，你应该怎么做？<br><em>Price breaks below $62K support with high volume and a bearish close — what do you do?</em></div>
+            <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 止损出场，不要抄底 Stop loss, don't catch the falling knife</p>
+              <p>支撑被放量跌破 = 支撑失效。<strong>铁律：不要在支撑失效后抄底。</strong>等价格在更低位置形成新的支撑后再考虑。<br>
+              下一个关注区域可能是 $58K-$60K（前期整数关口 + 可能的成交量密集区）。<br>
+              <em>Support broken with volume = invalidated. Never buy a broken support. Wait for new support to form lower. Next watch: $58K-$60K.</em></p>
+              <p class="wrong">❌ 常见错误：觉得"跌了这么多一定会反弹"就抄底。支撑失效后下方可能是真空区，会加速下跌。</p>
+            </div>
+          </div>
+
+          <div class="quiz-item">
+            <div class="q"><strong>Q5:</strong> 画一个 BTC 当前的支撑阻力图（在纸上或 TradingView 上），标出至少3个关键区域。<br><em>Draw a BTC S/R map (on paper or TradingView) with at least 3 key zones.</em></div>
+            <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
+            <div class="answer">
+              <p class="correct">✅ 参考答案 — 你的图应该包含这些区域：</p>
+              <p>
+              🟢 <strong>$62K-$64K</strong> 强支撑 (绿色矩形) — 多次触底<br>
+              🟢 <strong>$67K-$68K</strong> 次支撑 (浅绿矩形) — 放量起涨点<br>
+              🔵 <strong>$70K-$71.5K</strong> 角色互换区 (蓝色矩形) — 待确认<br>
+              🔴 <strong>$72K-$73.5K</strong> 次阻力 (浅红矩形)<br>
+              🔴 <strong>$74K-$75K</strong> 强阻力 (红色矩形) — 射击之星高点<br>
+              </p>
+              <p><a href="https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT" target="_blank">→ 在 TradingView 上实操练习</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day 2 Summary -->
+      <div class="summary-box" id="d2SummaryBox">
+        <div class="summary-header">
+          <h4>📝 Day 2 核心要点 Key Takeaways</h4>
+          <div class="summary-progress">已掌握 <span id="d2MasteredCount">0</span>/6 Mastered</div>
+        </div>
+        <ul id="d2SummaryList">
+          <li data-key="d2s1" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>支撑 = 地板（止跌反弹），阻力 = 天花板（遇阻回落）| Support = floor, Resistance = ceiling</span></li>
+          <li data-key="d2s2" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>S/R 是区域不是精确线，用矩形工具画 | S/R are zones, draw with rectangle tool</span></li>
+          <li data-key="d2s3" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>5种识别法：水平线、整数关口、成交量、K线确认、角色互换 | 5 methods: horizontal, round numbers, volume, candlestick, polarity flip</span></li>
+          <li data-key="d2s4" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>角色互换：支撑被破变阻力，阻力被破变支撑 | Broken S becomes R, broken R becomes S</span></li>
+          <li data-key="d2s5" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>不在阻力追高，不在支撑恐慌卖，支撑失效立刻止损 | Don't chase at R, don't panic sell at S, stop loss when S breaks</span></li>
+          <li data-key="d2s6" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>大阳线 = 身体壮（实体长），射击之星 = 头上长（上影线长）— 别再搞混！| Marubozu = big body, Shooting Star = long head — don't mix them up!</span></li>
+        </ul>
+      </div>
+
       <!-- Footer -->
       <div class="site-footer">
         <div class="footer-powered">Powered by <span>爻</span> × Claude | Built with real OKX DEX data</div>
         <div class="next-lesson-card">
           <div class="next-label">Next Lesson</div>
-          <div class="next-title">Day 2: 支撑与阻力 Support & Resistance</div>
-          <div class="next-sub">深入学习如何画出精准的支撑阻力区域 | Deep dive into drawing precise S/R zones</div>
+          <div class="next-title">Day 3: 趋势线与通道 Trendlines & Channels</div>
+          <div class="next-sub">学会画趋势线，识别上升通道和下降通道 | Learn to draw trendlines and identify ascending/descending channels</div>
           <div class="countdown" id="nextCountdown">Loading...</div>
         </div>
       </div>
@@ -1241,6 +1524,62 @@ document.querySelectorAll('.nav-item:not(.locked)').forEach(item => {
     }
   });
 });
+
+// ============ Day 2 Quiz ============
+let d2QuizViewed = 0;
+function revealD2Answer(btn) {
+  const answer = btn.nextElementSibling;
+  if (!answer.classList.contains('show')) {
+    answer.classList.add('show');
+    if (!btn.classList.contains('viewed')) {
+      btn.classList.add('viewed');
+      btn.textContent = '\u2713 已查看';
+      d2QuizViewed++;
+      document.getElementById('d2QuizScore').textContent = d2QuizViewed;
+    }
+  } else {
+    answer.classList.remove('show');
+  }
+}
+
+// ============ Day 2 Summary Checklist ============
+function loadD2Checklist() {
+  const saved = JSON.parse(localStorage.getItem('yao-d2-checklist') || '{}');
+  document.querySelectorAll('#d2SummaryList li').forEach(li => {
+    if (saved[li.dataset.key]) {
+      li.classList.add('checked');
+      li.querySelector('.check-icon').textContent = '\u2713';
+    }
+  });
+  updateD2MasteredCount();
+}
+
+function toggleD2Check(li) {
+  li.classList.toggle('checked');
+  const icon = li.querySelector('.check-icon');
+  icon.textContent = li.classList.contains('checked') ? '\u2713' : '';
+  saveD2Checklist();
+  updateD2MasteredCount();
+}
+
+function saveD2Checklist() {
+  const state = {};
+  document.querySelectorAll('#d2SummaryList li').forEach(li => {
+    state[li.dataset.key] = li.classList.contains('checked');
+  });
+  localStorage.setItem('yao-d2-checklist', JSON.stringify(state));
+}
+
+function updateD2MasteredCount() {
+  const count = document.querySelectorAll('#d2SummaryList li.checked').length;
+  document.getElementById('d2MasteredCount').textContent = count;
+}
+
+loadD2Checklist();
+
+// ============ Day 2 Scroll Animations ============
+document.querySelectorAll('#day2 .section').forEach(s => sectionObserver.observe(s));
+document.querySelectorAll('#day2 .day-header, #day2 .summary-box').forEach(el => headerObserver.observe(el));
 
 // ============ Next Lesson Countdown ============
 function updateCountdown() {
