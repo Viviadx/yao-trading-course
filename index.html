@@ -1592,7 +1592,7 @@ function updateCountdown() {
   const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const secs = Math.floor((diff % (1000 * 60)) / 1000);
   document.getElementById('nextCountdown').textContent =
-    'Unlocks in ' + hours + 'h ' + mins + 'm ' + secs + 's';
+    (hours < 0 ? '🟢 D2 已上线 — 点击左侧查看' : 'Unlocks in ' + hours + 'h ' + mins + 'm ' + secs + 's');
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
