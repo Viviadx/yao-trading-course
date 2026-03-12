@@ -705,24 +705,24 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <span class="day-num">D1</span> K线基础 Candlestick Basics
         </a>
         <a class="nav-item active" href="#day2" data-section="day2-header">
-          <span class="day-num">D2</span> 支撑与阻力 Support & Resistance <span class="badge new">NEW</span>
+          <span class="day-num">D2</span> 影线的意义 Wick Signals <span class="badge new">NEW</span>
         </a>
-        <a class="nav-item locked"><span class="day-num">D3</span> 趋势线与通道 Trendlines</a>
-        <a class="nav-item locked"><span class="day-num">D4</span> 均线系统 Moving Averages</a>
-        <a class="nav-item locked"><span class="day-num">D5</span> 成交量 Volume Analysis</a>
-        <a class="nav-item locked"><span class="day-num">D6</span> 趋势转折识别 Trend Reversal</a>
-        <a class="nav-item locked"><span class="day-num">D7</span> 周测验 Weekly Quiz</a>
+        <a class="nav-item locked"><span class="day-num">D3</span> 大实体vs小实体 Body Strength</a>
+        <a class="nav-item locked"><span class="day-num">D4</span> 十字星/纺锤线 Doji & Spinning Top</a>
+        <a class="nav-item locked"><span class="day-num">D5</span> 吞没形态 Engulfing Patterns</a>
+        <a class="nav-item locked"><span class="day-num">D6</span> 连续K线组合 Multi-Candle Stories</a>
+        <a class="nav-item locked"><span class="day-num">D7</span> Week 1 复盘 Weekly Review</a>
       </div>
 
       <div class="nav-section">
-        <h3>Week 2 · 指标与系统</h3>
-        <a class="nav-item locked"><span class="day-num">D8</span> RSI 相对强弱指标</a>
-        <a class="nav-item locked"><span class="day-num">D9</span> MACD 指标</a>
-        <a class="nav-item locked"><span class="day-num">D10</span> 布林带 Bollinger Bands</a>
-        <a class="nav-item locked"><span class="day-num">D11</span> 斐波那契 Fibonacci</a>
-        <a class="nav-item locked"><span class="day-num">D12</span> 止损止盈 Stop Loss & Take Profit</a>
-        <a class="nav-item locked"><span class="day-num">D13</span> 仓位管理 Position Sizing</a>
-        <a class="nav-item locked"><span class="day-num">D14</span> 周测验 Weekly Quiz</a>
+        <h3>Week 2 · 市场结构</h3>
+        <a class="nav-item locked"><span class="day-num">D8</span> 上升趋势 HH+HL Uptrend</a>
+        <a class="nav-item locked"><span class="day-num">D9</span> 下降趋势 LH+LL Downtrend</a>
+        <a class="nav-item locked"><span class="day-num">D10</span> 支撑位 Support Levels</a>
+        <a class="nav-item locked"><span class="day-num">D11</span> 阻力位 Resistance Levels</a>
+        <a class="nav-item locked"><span class="day-num">D12</span> 突破vs假突破 Breakout vs Fakeout</a>
+        <a class="nav-item locked"><span class="day-num">D13</span> 横盘区间 Range Trading</a>
+        <a class="nav-item locked"><span class="day-num">D14</span> Week 2 复盘 Weekly Review</a>
       </div>
 
       <div class="nav-section">
@@ -743,7 +743,7 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     </div>
 
     <div class="sidebar-bottom">
-      Day 2 · 2026.03.11
+      Day 2 · 2026.03.12
     </div>
   </nav>
 
@@ -1035,175 +1035,176 @@ tr:hover td { background: rgba(255,255,255,0.02); }
     <div id="day2">
       <div class="day-header" id="day2-header">
         <div class="day-label">Day 2 of 30</div>
-        <h2>支撑与阻力 <span class="bilingual">Support & Resistance</span></h2>
-        <div class="subtitle">价格记忆的秘密 — 学会画出市场的地板和天花板 | The secret of price memory — learn to draw the market's floor and ceiling</div>
+        <h2>影线的意义 <span class="bilingual">The Meaning of Wicks</span></h2>
+        <div class="subtitle">被拒绝的价格 — 影线越长，那个方向的拒绝越强烈 | Rejected prices — the longer the wick, the stronger the rejection</div>
       </div>
 
-      <!-- Section 1: Definitions -->
+      <!-- Section 1: What are Wicks -->
       <div class="section" id="d2-section-1">
-        <h3>一、什么是支撑与阻力？ <span class="bilingual">What are Support & Resistance?</span></h3>
+        <h3>一、什么是影线？ <span class="bilingual">What are Wicks / Shadows?</span></h3>
 
         <div class="concept-card">
           <h4>核心定义 <span class="en">Core Definitions</span></h4>
           <table>
             <tr><th>中文</th><th>English</th><th>含义 Meaning</th></tr>
-            <tr><td>支撑 (Support)</td><td>Support Level</td><td>价格下跌到这里就容易止跌反弹 — 像地板<br>Price tends to stop falling and bounce here — like a floor</td></tr>
-            <tr><td>阻力 (Resistance)</td><td>Resistance Level</td><td>价格上涨到这里就容易遇阻回落 — 像天花板<br>Price tends to stop rising and pull back here — like a ceiling</td></tr>
-            <tr><td>支撑区 / 阻力区</td><td>S/R Zone</td><td>不是一条精确的线，而是一个价格范围<br>Not an exact line, but a price range</td></tr>
-            <tr><td>角色互换</td><td>Role Reversal / Polarity Flip</td><td>支撑被跌破 → 变阻力；阻力被突破 → 变支撑<br>Broken support becomes resistance; broken resistance becomes support</td></tr>
-            <tr><td>假突破</td><td>Fakeout / False Breakout</td><td>价格短暂突破后迅速回来 = 陷阱<br>Price briefly breaks through then quickly reverses = trap</td></tr>
-            <tr><td>测试 (Test)</td><td>Retest</td><td>价格回到之前的支撑/阻力区确认有效性<br>Price returns to a previous S/R zone to confirm it still holds</td></tr>
+            <tr><td>上影线</td><td>Upper Wick / Shadow</td><td>实体上方的线 = 价格冲高后被卖回来<br>Line above body = price pushed up then sold back down</td></tr>
+            <tr><td>下影线</td><td>Lower Wick / Shadow</td><td>实体下方的线 = 价格跌下后被买回来<br>Line below body = price pushed down then bought back up</td></tr>
+            <tr><td>影线比例</td><td>Wick Ratio</td><td>影线长度 ÷ K线总长度(High-Low) × 100%<br>Wick length ÷ Total range × 100%</td></tr>
+            <tr><td>无影线 / 光头光脚</td><td>No Wick / Marubozu</td><td>没有影线 = 一方完全控制，没有任何拒绝<br>No wick = one side fully in control, zero rejection</td></tr>
           </table>
-          <div class="key">核心原则：支撑/阻力被"测试"的次数越多，该区域越重要 | The more times S/R is tested, the more significant it becomes</div>
+          <div class="key">核心法则：影线 = 拒绝。影线越长 = 拒绝越强烈 | Wick = Rejection. Longer wick = stronger rejection</div>
         </div>
 
         <div class="concept-card">
-          <h4>为什么支撑和阻力有效？ <span class="en">Why Does S/R Work?</span></h4>
-          <p><strong>价格记忆 Price Memory：</strong>市场参与者会记住他们在某个价位买入或卖出的经历。<br>
-          Market participants remember the prices where they bought or sold.</p>
-          <p style="margin-top:10px"><strong>三种心理力量 Three Psychological Forces：</strong></p>
+          <h4>如何计算影线比例 <span class="en">How to Calculate Wick Ratio</span></h4>
+          <p>以 BTC 3/5 为例 (Open $73,367 | High $74,994 | Low $69,950 | Close $71,386)：</p>
           <table>
-            <tr><th>角色 Role</th><th>在支撑位的行为 Behavior at Support</th></tr>
-            <tr><td>之前在这里买入的人 Prior buyers</td><td>价格回来 → "我是对的，加仓" → 买入增加<br>Price returns → "I was right, add more" → more buying</td></tr>
-            <tr><td>之前在这里卖出的人 Prior sellers</td><td>价格回来 → "后悔卖早了，这次不卖" → 卖压减少<br>Price returns → "I sold too early, won't sell again" → less selling</td></tr>
-            <tr><td>观望的人 Sideliners</td><td>价格回来 → "上次没买，这次买" → 新买入<br>Price returns → "Missed it last time, buying now" → new buying</td></tr>
+            <tr><th>部分 Part</th><th>计算 Calculation</th><th>结果 Result</th></tr>
+            <tr><td>K线总长 Total Range</td><td>$74,994 - $69,950</td><td>$5,044 (100%)</td></tr>
+            <tr><td>上影线 Upper Wick</td><td>$74,994 - $73,367 (开盘)</td><td>$1,627 (<strong>32%</strong>)</td></tr>
+            <tr><td>实体 Body</td><td>$73,367 - $71,386</td><td>$1,981 (39%)</td></tr>
+            <tr><td>下影线 Lower Wick</td><td>$71,386 - $69,950</td><td>$1,436 (28%)</td></tr>
           </table>
-          <div class="key">三股力量合一 = 支撑生效 | All three forces combine = support holds</div>
+          <div class="key">上影线占32% + 实体是阴线 = 冲高$75K被拒 + 收盘低于开盘 = 卖方赢了 | Upper wick 32% + bearish body = $75K rejected, sellers won</div>
         </div>
       </div>
 
-      <!-- Section 2: How to Identify S/R on Charts -->
+      <!-- Section 2: Four Key Wick Patterns -->
       <div class="section" id="d2-section-2">
-        <h3>二、如何在图表上识别支撑与阻力 <span class="bilingual">How to Identify S/R on Charts</span></h3>
+        <h3>二、四大影线形态 <span class="bilingual">Four Key Wick Patterns</span></h3>
 
-        <div class="sr-method">
-          <div class="sr-num">1</div>
-          <div>
-            <h4>水平线法 <span class="en-label">Horizontal Line Method</span></h4>
-            <p>找到价格多次反弹或受阻的水平区域，画一条水平线。<strong>至少2次触及</strong>才有效，3次以上更可靠。<br>
-            <em>Find horizontal zones where price bounced or stalled multiple times. Draw a horizontal line. <strong>At least 2 touches</strong> to be valid, 3+ for reliability.</em></p>
-            <p style="margin-top:8px;color:var(--accent)">操作：在TradingView上用"水平线"工具，连接多个反弹低点（支撑）或回落高点（阻力）。<br>
-            <em>Action: Use the "Horizontal Line" tool on TradingView, connecting bounce lows (support) or rejection highs (resistance).</em></p>
+        <div class="pattern-grid">
+          <div class="pattern-card">
+            <div class="tooltip">长下影线 + 小实体 + 出现在底部 = 看涨反转 | Long lower wick at bottom = bullish reversal</div>
+            <h4>锤子线</h4>
+            <div class="en-name">Hammer</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="18" stroke="#26a69a" stroke-width="2"/>
+              <rect x="36" y="18" width="18" height="14" fill="#26a69a" rx="2"/>
+              <line x1="45" y1="32" x2="45" y2="92" stroke="#26a69a" stroke-width="2"/>
+            </svg>
+            <span class="tag bullish">底部反转 Bullish Reversal</span>
+            <p><strong>下影线 ≥ 实体2倍</strong><br>Lower wick ≥ 2x body<br>跌了但被买回 = 底部有买盘<br><em>出现在下跌末端才有效</em></p>
+          </div>
+          <div class="pattern-card">
+            <div class="tooltip">长上影线 + 小实体 + 出现在顶部 = 看跌反转 | Long upper wick at top = bearish reversal</div>
+            <h4>射击之星</h4>
+            <div class="en-name">Shooting Star</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="68" stroke="#ef5350" stroke-width="2"/>
+              <rect x="36" y="68" width="18" height="14" fill="#ef5350" rx="2"/>
+              <line x1="45" y1="82" x2="45" y2="92" stroke="#ef5350" stroke-width="2"/>
+            </svg>
+            <span class="tag bearish">顶部反转 Bearish Reversal</span>
+            <p><strong>上影线 ≥ 实体2倍</strong><br>Upper wick ≥ 2x body<br>冲高被打回 = 顶部有卖压<br><em>出现在上涨末端才有效</em></p>
+          </div>
+          <div class="pattern-card">
+            <div class="tooltip">长下影线 + 小实体 + 出现在顶部 = 上吊线 | Same shape as Hammer but at top = bearish</div>
+            <h4>上吊线</h4>
+            <div class="en-name">Hanging Man</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="18" stroke="#ef5350" stroke-width="2"/>
+              <rect x="36" y="18" width="18" height="14" fill="#ef5350" rx="2"/>
+              <line x1="45" y1="32" x2="45" y2="92" stroke="#ef5350" stroke-width="2"/>
+            </svg>
+            <span class="tag bearish">顶部警告 Bearish Warning</span>
+            <p><strong>形状和锤子线一样！</strong><br>Same shape as Hammer!<br>但出现在顶部 = 卖压开始出现<br><em>位置决定含义 Location = meaning</em></p>
+          </div>
+          <div class="pattern-card">
+            <div class="tooltip">长上影线 + 小实体 + 出现在底部 = 倒锤子 | Inverted Hammer at bottom = potential bullish</div>
+            <h4>倒锤子</h4>
+            <div class="en-name">Inverted Hammer</div>
+            <svg width="90" height="100" viewBox="0 0 90 100">
+              <line x1="45" y1="8" x2="45" y2="68" stroke="#26a69a" stroke-width="2"/>
+              <rect x="36" y="68" width="18" height="14" fill="#26a69a" rx="2"/>
+              <line x1="45" y1="82" x2="45" y2="92" stroke="#26a69a" stroke-width="2"/>
+            </svg>
+            <span class="tag bullish">底部信号 Potential Bullish</span>
+            <p><strong>形状和射击之星一样！</strong><br>Same shape as Shooting Star!<br>但出现在底部 = 买方尝试反攻<br><em>需要第二天确认 Needs next-day confirm</em></p>
           </div>
         </div>
 
-        <div class="sr-method">
-          <div class="sr-num">2</div>
-          <div>
-            <h4>整数关口法 <span class="en-label">Round Number / Psychological Level</span></h4>
-            <p>$50,000、$60,000、$70,000、$100,000 等整数位自带心理效应。大量挂单堆积在整数附近。<br>
-            <em>Round numbers like $50K, $60K, $70K, $100K carry psychological weight. Limit orders cluster around these levels.</em></p>
-            <p style="margin-top:8px;color:var(--yellow)">⚠️ 整数关口不是精确的线，通常上下浮动 1-2%。例如 "$70K 阻力" 实际可能在 $69,000-$71,500。<br>
-            <em>Round numbers are not exact — they typically fluctuate ±1-2%. "$70K resistance" might actually be $69,000-$71,500.</em></p>
-          </div>
-        </div>
-
-        <div class="sr-method">
-          <div class="sr-num">3</div>
-          <div>
-            <h4>成交量密集区法 <span class="en-label">Volume Profile / High Volume Node</span></h4>
-            <p>成交量最大的价格区域 = 最多人在这里交易 = 强支撑/阻力。可以用 TradingView 的 Volume Profile 指标查看。<br>
-            <em>The price zone with the highest volume = most participants traded here = strong S/R. Use TradingView's Volume Profile indicator.</em></p>
-          </div>
-        </div>
-
-        <div class="sr-method">
-          <div class="sr-num">4</div>
-          <div>
-            <h4>K线形态确认法 <span class="en-label">Candlestick Confirmation</span></h4>
-            <p>在潜在支撑位出现<strong>锤子线 (Hammer)</strong>、<strong>看涨吞没 (Bullish Engulfing)</strong> = 支撑被确认。<br>
-            在潜在阻力位出现<strong>射击之星 (Shooting Star)</strong>、<strong>看跌吞没 (Bearish Engulfing)</strong> = 阻力被确认。<br>
-            <em>Hammer / Bullish Engulfing at potential support = support confirmed.<br>
-            Shooting Star / Bearish Engulfing at potential resistance = resistance confirmed.</em></p>
-            <p style="margin-top:8px;color:var(--accent)">💡 这就是 Day 1 和 Day 2 的连接点 — K线形态 + 支撑阻力 = 更高胜率的判断。<br>
-            <em>This connects Day 1 and Day 2 — candlestick patterns + S/R = higher probability analysis.</em></p>
-          </div>
-        </div>
-
-        <div class="sr-method">
-          <div class="sr-num">5</div>
-          <div>
-            <h4>角色互换法 <span class="en-label">Polarity Flip / Role Reversal</span></h4>
-            <p><strong>最重要的概念之一：</strong>当价格突破阻力后回踩该区域，如果不跌破，原来的阻力就变成了新支撑（反之亦然）。<br>
-            <em><strong>One of the most important concepts:</strong> When price breaks above resistance then pulls back to that zone, if it holds, the old resistance becomes new support (and vice versa).</em></p>
-            <p style="margin-top:8px">BTC 实例：3/4 突破 $70K 阻力区后，$70K 附近变成新的支撑区。如果回调到 $70K 止跌 = 角色互换成功。<br>
-            <em>BTC example: After breaking $70K resistance on 3/4, the $70K area becomes new support. If pullback stops at $70K = successful polarity flip.</em></p>
-          </div>
+        <div class="concept-card" style="background: rgba(66,165,245,0.08); border-color: rgba(66,165,245,0.2);">
+          <h4>关键领悟：形状相同，位置不同 = 含义相反 <span class="en">Same Shape, Different Location = Opposite Meaning</span></h4>
+          <table>
+            <tr><th>形状 Shape</th><th>出现在底部 At Bottom</th><th>出现在顶部 At Top</th></tr>
+            <tr><td>下影线长 (长腿在下)<br>Long lower wick</td><td style="color:#26a69a"><strong>锤子线 Hammer</strong> → 看涨</td><td style="color:#ef5350"><strong>上吊线 Hanging Man</strong> → 看跌</td></tr>
+            <tr><td>上影线长 (长腿在上)<br>Long upper wick</td><td style="color:#26a69a"><strong>倒锤子 Inverted Hammer</strong> → 看涨</td><td style="color:#ef5350"><strong>射击之星 Shooting Star</strong> → 看跌</td></tr>
+          </table>
+          <div class="key">记忆口诀：同样的形状，底部看涨顶部看跌 — 位置 > 形状 | Same shape: bullish at bottom, bearish at top — Location > Shape</div>
         </div>
       </div>
 
-      <!-- Section 3: BTC Live S/R Analysis -->
+      <!-- Section 3: BTC Live Wick Analysis -->
       <div class="section" id="d2-section-3">
-        <h3>三、BTC 实盘支撑阻力分析 <span class="bilingual">Live BTC S/R Analysis</span></h3>
+        <h3>三、BTC 实盘影线分析 <span class="bilingual">Live BTC Wick Analysis</span></h3>
 
         <div class="concept-card">
-          <h4>📊 当前 BTC 支撑阻力全景图 <span class="en">Current BTC S/R Map (as of 2026.03.11)</span></h4>
+          <h4>📊 近期 BTC 关键影线 K 线 <span class="en">Recent BTC Key Wick Candles</span></h4>
           <table>
-            <tr><th>级别 Level</th><th>区域 Zone</th><th>识别方法 Method</th><th>强度 Strength</th></tr>
-            <tr><td style="color:#26a69a">强支撑 Strong S</td><td>$62,000 - $64,000</td><td>多次触底（2/25, 2/28, 3/1）+ 放量反弹</td><td>⭐⭐⭐ (3次测试)</td></tr>
-            <tr><td style="color:#26a69a">次支撑 Minor S</td><td>$67,000 - $68,000</td><td>3/4 放量起涨点 + 3/10 收盘区</td><td>⭐⭐ (新形成)</td></tr>
-            <tr><td style="color:#42a5f5">角色互换区</td><td>$70,000 - $71,500</td><td>3/4 突破后从阻力变支撑（待确认）</td><td>⭐⭐ (需要 retest)</td></tr>
-            <tr><td style="color:#ef5350">次阻力 Minor R</td><td>$72,000 - $73,500</td><td>3/4, 3/10 收盘区域上沿</td><td>⭐⭐</td></tr>
-            <tr><td style="color:#ef5350">强阻力 Strong R</td><td>$74,000 - $75,000</td><td>3/5 射击之星最高点 + 整数关口</td><td>⭐⭐⭐ (射击之星 + 放量)</td></tr>
+            <tr><th>日期</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>上影线%</th><th>下影线%</th><th>实体%</th><th>形态</th></tr>
+            <tr style="color:#ef5350"><td><strong>3/5</strong></td><td>$73,367</td><td>$74,994</td><td>$69,950</td><td>$71,386</td><td><strong>32%</strong></td><td>28%</td><td>39%</td><td>射击之星</td></tr>
+            <tr><td><strong>3/10</strong></td><td>$68,724</td><td>$72,146</td><td>$64,718</td><td>$69,652</td><td><strong>34%</strong></td><td>53%</td><td>13%</td><td>长下影线 + 上影线</td></tr>
+            <tr style="color:#26a69a"><td><strong>3/1</strong></td><td>$66,677</td><td>$69,853</td><td>$63,864</td><td>$68,939</td><td>15%</td><td><strong>47%</strong></td><td>38%</td><td>锤子线</td></tr>
+            <tr style="color:#26a69a"><td><strong>3/4</strong></td><td>$67,579</td><td>$73,522</td><td>$66,148</td><td>$73,367</td><td>2%</td><td>19%</td><td><strong>78%</strong></td><td>大阳线(几乎无上影线)</td></tr>
           </table>
-          <div class="key">在 TradingView 上标注这些区域：<a href="https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT" target="_blank">打开 BTC/USDT 图表 →</a></div>
         </div>
 
         <div class="annotation-grid">
-          <div class="anno green">
-            <h4>🟢 $62K-$64K 强支撑区 Strong Support Zone</h4>
-            <p><strong>识别方法：多次触底不破 + 放量反弹</strong><br>Multiple bounces + volume confirmation<br>
-            2/25 低 $62,927 → 2/28 低 $62,011 → 3/1 低 $63,864<br>
-            三次跌到这个区域都弹了回来 = 买盘力量强大<br>
-            <em>Three tests held = strong buyer presence</em></p>
-          </div>
           <div class="anno red">
-            <h4>🔴 $74K-$75K 强阻力区 Strong Resistance Zone</h4>
-            <p><strong>识别方法：射击之星 + 整数关口</strong><br>Shooting star + round number<br>
-            3/5 冲到 $74,994 立刻被打回 $71,386<br>
-            $75K 是重要心理关口，多方无法攻克<br>
-            <em>Bulls couldn't conquer $75K — strong seller defense</em></p>
+            <h4>🔴 3/5 射击之星 — $75K 被拒绝 <span style="font-weight:normal">Shooting Star — $75K Rejected</span></h4>
+            <p>冲到 $74,994 (接近 $75K 整数关口) 但只收 $71,386<br>
+            上影线 32% = 冲高的部分全部被卖回<br>
+            <strong>$75K 是明确的价格拒绝区</strong> = 卖方在这里挂了大量卖单<br>
+            <em>Bulls tried $75K, sellers crushed it. Clear rejection zone.</em></p>
+          </div>
+          <div class="anno green">
+            <h4>🟢 3/1 锤子线 — $64K 有买盘 <span style="font-weight:normal">Hammer — Buyers at $64K</span></h4>
+            <p>跌到 $63,864 但收在 $68,939 (远高于最低价)<br>
+            下影线 47% = 跌下去的部分几乎全部被买回<br>
+            <strong>$64K 附近有强力买盘</strong> = 买方在底部防守<br>
+            <em>Dropped to $64K but bought all the way back. Strong buyer defense.</em></p>
           </div>
           <div class="anno blue">
-            <h4>🔵 $70K 角色互换观察区 Polarity Flip Watch Zone</h4>
-            <p><strong>识别方法：突破后的阻力转支撑</strong><br>Resistance-turned-support after breakout<br>
-            3/4 大阳线突破 $70K → 如果回调到 $70K 不破<br>
-            = 角色互换成功，新支撑确认<br>
-            <em>If pullback holds $70K = flip confirmed, new support</em></p>
+            <h4>🔵 3/4 大阳线 — 几乎无影线 <span style="font-weight:normal">Marubozu — Almost No Wicks</span></h4>
+            <p>上影线只有 2%，实体占 78%<br>
+            <strong>几乎没有影线 = 几乎没有拒绝</strong><br>
+            买方从开盘到收盘完全控制 = 最强势的信号<br>
+            <em>Barely any wick = barely any rejection. Buyers fully in control.</em></p>
           </div>
           <div class="anno yellow">
-            <h4>🟡 实操建议 Practical Tips</h4>
-            <p><strong>画线技巧：用"区域"替代"线"</strong><br>Draw zones, not lines<br>
-            在 TradingView 用"矩形"工具画出 S/R 区域<br>
-            颜色建议：支撑区用绿色半透明，阻力区用红色半透明<br>
-            <em>Use rectangle tool, green for support, red for resistance</em></p>
+            <h4>🟡 3/10 长十字 — 多空拉锯 <span style="font-weight:normal">Long-Legged Doji — Tug of War</span></h4>
+            <p>上影线 34% + 下影线 53%，但实体只有 13%<br>
+            上下都有很长的影线 = 两个方向都被拒绝<br>
+            <strong>多空都在拉锯，谁都没赢</strong> = 犹豫/变盘信号<br>
+            <em>Both bulls and bears were rejected. Indecision = potential turning point.</em></p>
           </div>
         </div>
       </div>
 
-      <!-- Section 4: S/R Trading Rules -->
+      <!-- Section 4: Wick Trading Rules -->
       <div class="section" id="d2-section-4">
-        <h3>四、支撑阻力交易规则 <span class="bilingual">S/R Trading Rules</span></h3>
+        <h3>四、影线交易规则 <span class="bilingual">Wick Trading Rules</span></h3>
 
         <div class="concept-card">
-          <h4>核心交易逻辑 <span class="en">Core Trading Logic</span></h4>
+          <h4>核心规则 <span class="en">Core Rules</span></h4>
           <table>
-            <tr><th>场景 Scenario</th><th>操作 Action</th><th>确认信号 Confirmation</th></tr>
-            <tr><td>价格接近支撑区<br>Price near support</td><td>观望，等待K线确认后做多<br>Wait for candlestick confirmation, then long</td><td>锤子线/看涨吞没 + 放量<br>Hammer/Bullish Engulfing + volume</td></tr>
-            <tr><td>价格接近阻力区<br>Price near resistance</td><td>考虑减仓/止盈，不追高<br>Consider taking profit, don't chase</td><td>射击之星/看跌吞没 + 缩量<br>Shooting Star/Bearish Engulfing + declining volume</td></tr>
-            <tr><td>支撑被跌破<br>Support broken</td><td>止损出场，不抄底<br>Stop loss, don't catch falling knife</td><td>收盘价跌破支撑区 + 放量<br>Close below support + high volume</td></tr>
-            <tr><td>阻力被突破<br>Resistance broken</td><td>等回踩确认后进场<br>Wait for pullback retest then enter</td><td>回踩不破 + K线看涨形态<br>Retest holds + bullish candlestick</td></tr>
+            <tr><th>规则 Rule</th><th>解释 Explanation</th><th>BTC 实例 Example</th></tr>
+            <tr><td><strong>影线 = 拒绝信号</strong><br>Wick = Rejection</td><td>长影线说明那个价格被市场拒绝了<br>Long wick means that price was rejected</td><td>3/5 上影线 → $75K 被拒</td></tr>
+            <tr><td><strong>影线 + 位置 = 更强信号</strong><br>Wick + Location = Stronger</td><td>在关键价位出现长影线，信号更可靠<br>Long wick at key levels = more reliable signal</td><td>3/1 锤子线在 $64K 支撑区</td></tr>
+            <tr><td><strong>无影线 = 无拒绝 = 最强势</strong><br>No wick = No rejection</td><td>完全没有影线说明一方绝对控制<br>Zero wick = absolute dominance by one side</td><td>3/4 大阳线上影线仅2%</td></tr>
+            <tr><td><strong>上下都有长影线 = 犹豫</strong><br>Both wicks long = Indecision</td><td>两个方向都被拒绝 = 市场在犹豫<br>Rejection both ways = market undecided</td><td>3/10 上34% + 下53%</td></tr>
           </table>
-          <div class="key">绝对铁律：永远不要在阻力位追高买入，永远不要在支撑位恐慌卖出<br>Iron rule: Never buy at resistance, never panic sell at support</div>
+          <div class="key">铁律：永远不要忽略长影线。影线告诉你市场在哪个价格"不同意" | Never ignore long wicks. They show where the market "disagrees"</div>
         </div>
 
         <div class="concept-card">
           <h4>⚠️ 常见陷阱 <span class="en">Common Traps</span></h4>
           <table>
             <tr><th>陷阱 Trap</th><th>描述 Description</th><th>应对 Solution</th></tr>
-            <tr><td>假突破 Fakeout</td><td>价格短暂突破阻力/跌破支撑后立刻回来</td><td>等收盘价确认，不追突破的影线<br>Wait for close, don't chase wicks</td></tr>
-            <tr><td>预判进场</td><td>还没到支撑就提前买<br>Buying before price reaches support</td><td>等价格到达区域 + K线信号<br>Wait for price to reach zone + signal</td></tr>
-            <tr><td>忽略时间框架</td><td>日线支撑和1小时支撑不同<br>Daily and 1H support are different</td><td>大级别S/R优先，小级别辅助确认<br>Higher timeframe S/R takes priority</td></tr>
+            <tr><td>忽略位置</td><td>只看形状不看位置，底部的射击之星形状其实是倒锤子<br>Looking only at shape, not location</td><td>先判断趋势位置（顶部/底部），再看形状<br>First determine location, then identify shape</td></tr>
+            <tr><td>单根K线做决策</td><td>只凭一根影线K线就进场交易<br>Trading on a single candle</td><td>等第二根K线确认：锤子线后第二天收阳 = 确认<br>Wait for confirmation: next candle confirms</td></tr>
+            <tr><td>忽略成交量</td><td>影线信号没有成交量配合<br>Wick signal without volume</td><td>放量的影线比缩量的影线可靠10倍<br>Wick with volume is 10x more reliable</td></tr>
           </table>
         </div>
       </div>
@@ -1216,15 +1217,15 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <h4>⚡ Roven 专属备注 <span class="en">Roven's Personal Notes</span></h4>
           <p><strong>Day 1 你把射击之星 (Shooting Star) 和大阳线 (Marubozu) 搞混了。</strong><br>
           <em>You confused the Shooting Star with the Marubozu in Day 1.</em></p>
-          <p style="margin-top:10px">快速区分法 Quick Distinction：</p>
+          <p style="margin-top:10px">现在你知道了：区别就在<strong>影线</strong>！</p>
           <table>
             <tr><th></th><th>大阳线 Marubozu</th><th>射击之星 Shooting Star</th></tr>
-            <tr><td>形状</td><td>实体很长，影线很短<br>Long body, short wicks</td><td>上影线很长，实体很小<br>Long upper wick, small body</td></tr>
-            <tr><td>含义</td><td>强势买入，趋势延续<br>Strong buying, trend continues</td><td>冲高被卖回，顶部危险<br>Rejected at top, bearish warning</td></tr>
-            <tr><td>出现位置</td><td>任何位置（确认方向）<br>Anywhere (confirms direction)</td><td>上涨末端（顶部信号）<br>End of uptrend (top signal)</td></tr>
-            <tr><td>BTC 实例</td><td>3/4 涨 8.6%，实体占90%<br>3/4: +8.6%, body is 90% of range</td><td>3/5 冲 $75K 收 $71.4K，上影线占70%<br>3/5: hit $75K, closed $71.4K, wick is 70%</td></tr>
+            <tr><td>影线</td><td><strong>几乎没有影线</strong> (2%)<br>Almost no wicks</td><td><strong>上影线很长</strong> (32%+)<br>Long upper wick</td></tr>
+            <tr><td>实体</td><td><strong>实体占78%+</strong><br>Body is 78%+ of range</td><td><strong>实体很小</strong><br>Small body</td></tr>
+            <tr><td>含义</td><td>无拒绝 = 一方绝对控制<br>No rejection = full control</td><td>冲高被拒 = 卖方反击<br>Upside rejected = sellers fought back</td></tr>
+            <tr><td>BTC 实例</td><td>3/4: 实体78%, 上影线2%</td><td>3/5: 上影线32%, 实体39%</td></tr>
           </table>
-          <div class="key">记忆口诀：大阳线 = 身体壮（实体长），射击之星 = 头上长（上影线长）<br>Mnemonic: Marubozu = big body, Shooting Star = long head</div>
+          <div class="key">记忆口诀：大阳线 = 身体壮（无影线），射击之星 = 头上长（长上影线）<br>Mnemonic: Marubozu = big body (no wicks), Shooting Star = long head (long upper wick)</div>
         </div>
 
         <div class="quiz">
@@ -1234,63 +1235,60 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           </div>
 
           <div class="quiz-item">
-            <div class="q"><strong>Q1:</strong> BTC 在 $62K-$64K 为什么是强支撑区？用了什么识别方法？<br><em>Why is $62K-$64K a strong support zone for BTC? What identification method was used?</em></div>
+            <div class="q"><strong>Q1:</strong> 3/5 BTC 冲到 $74,994 但收在 $71,386，上影线占32%。这根K线叫什么？它告诉你什么？<br><em>BTC hit $74,994 on 3/5 but closed at $71,386, upper wick is 32%. What is this candle? What does it tell you?</em></div>
             <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 多次触底不破法 Multiple Bounces Method</p>
-              <p>2/25 ($62,927)、2/28 ($62,011)、3/1 ($63,864) 三次跌到该区域都反弹。<strong>3次以上的测试 = 强支撑。</strong>同时伴随放量反弹，说明有大买单在支撑。<br>
-              <em>Three bounces from this zone with volume = strong support. Large buy orders are defending this level.</em></p>
+              <p class="correct">✅ 射击之星 (Shooting Star) — $75K 被拒绝</p>
+              <p>上影线长(32%) + 阴线实体 + 出现在上涨末端 = 射击之星。冲到 $75K 被卖回来 = <strong>卖方在 $75K 有强力防守</strong>。<br>
+              <em>Long upper wick + bearish body + at the top = Shooting Star. $75K was firmly rejected by sellers.</em></p>
+              <p class="wrong">❌ 不是大阳线！大阳线几乎没有影线（如3/4那根）。有长影线 = 有拒绝 = 不是大阳线。</p>
             </div>
           </div>
 
           <div class="quiz-item">
-            <div class="q"><strong>Q2:</strong> 3/5 那根射击之星出现在 $74,994，告诉我们什么？（这道题帮你巩固 Day 1 的概念）<br><em>The shooting star on 3/5 hit $74,994 — what does it tell us? (Reinforcing Day 1 concepts)</em></div>
+            <div class="q"><strong>Q2:</strong> 3/1 BTC 跌到 $63,864 但收在 $68,939，下影线占47%。这是什么形态？它说明什么？<br><em>BTC dropped to $63,864 on 3/1 but closed at $68,939, lower wick is 47%. What pattern? What does it mean?</em></div>
             <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ $74K-$75K 是强阻力区 Strong Resistance</p>
-              <p><strong>射击之星 ≠ 大阳线！</strong>射击之星 = 长上影线 + 小实体，说明冲高被卖回。3/5 从 $73,367 冲到 $74,994 (上影线)，但收在 $71,386 (远低于开盘)。<br>
-              = 卖方在 $75K 附近有大量卖单，阻力很强。<br>
-              <em>Shooting Star ≠ Marubozu! Long upper wick + small body = rejection at top. Sellers are strong at $75K.</em></p>
-              <p class="wrong">❌ 常见错误：看到价格冲高就以为是大阳线（Marubozu）。大阳线的特征是实体长、影线短，3/4 才是大阳线。</p>
+              <p class="correct">✅ 锤子线 (Hammer) — $64K 有买盘防守</p>
+              <p>下影线长(47%) + 出现在下跌过程中 = 锤子线。跌到 $64K 被大量买回 = <strong>买方在底部有强力防守</strong>。<br>
+              <em>Long lower wick (47%) at the bottom of a decline = Hammer. Buyers defending $64K aggressively.</em></p>
             </div>
           </div>
 
           <div class="quiz-item">
-            <div class="q"><strong>Q3:</strong> 如果 BTC 从 $72K 回调到 $70,000 出现锤子线并止跌，这是什么现象？<br><em>If BTC pulls back from $72K to $70,000 and forms a Hammer that holds, what is this called?</em></div>
+            <div class="q"><strong>Q3:</strong> 锤子线和上吊线长得一模一样。它们的区别是什么？<br><em>Hammer and Hanging Man look identical. What's the difference?</em></div>
             <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 角色互换 / 极性翻转 Polarity Flip / Role Reversal</p>
-              <p>$70K 之前是阻力区（价格多次在此受阻）。3/4 大阳线突破后，如果回调到 $70K 出现锤子线并止跌 = <strong>原来的阻力变成了新的支撑</strong>。<br>
-              锤子线是K线确认信号（Day 1学的），配合角色互换 = 高概率做多机会。<br>
-              <em>$70K was resistance. After breakout, pullback to $70K with a Hammer = old resistance becomes new support. Hammer (Day 1) + role reversal = high probability long setup.</em></p>
+              <p class="correct">✅ 位置不同！底部 = 锤子线(看涨)，顶部 = 上吊线(看跌)</p>
+              <p><strong>同样的形状，含义完全相反：</strong><br>
+              锤子线出现在下跌末端 → 底部买盘 → 看涨反转<br>
+              上吊线出现在上涨末端 → 顶部开始出现卖压 → 看跌警告<br>
+              <em>Same shape, opposite meaning. Hammer at bottom = bullish. Hanging Man at top = bearish. Location determines everything.</em></p>
+              <div class="key">位置 > 形状 | Location > Shape</div>
             </div>
           </div>
 
           <div class="quiz-item">
-            <div class="q"><strong>Q4:</strong> 价格跌破 $62K 支撑区并放量收阴线，你应该怎么做？<br><em>Price breaks below $62K support with high volume and a bearish close — what do you do?</em></div>
+            <div class="q"><strong>Q4:</strong> 3/4 大阳线上影线只有2%。为什么"没有影线"也是重要信息？<br><em>The 3/4 Marubozu has only 2% upper wick. Why is "no wick" also important information?</em></div>
             <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 止损出场，不要抄底 Stop loss, don't catch the falling knife</p>
-              <p>支撑被放量跌破 = 支撑失效。<strong>铁律：不要在支撑失效后抄底。</strong>等价格在更低位置形成新的支撑后再考虑。<br>
-              下一个关注区域可能是 $58K-$60K（前期整数关口 + 可能的成交量密集区）。<br>
-              <em>Support broken with volume = invalidated. Never buy a broken support. Wait for new support to form lower. Next watch: $58K-$60K.</em></p>
-              <p class="wrong">❌ 常见错误：觉得"跌了这么多一定会反弹"就抄底。支撑失效后下方可能是真空区，会加速下跌。</p>
+              <p class="correct">✅ 没有影线 = 没有拒绝 = 买方完全控制</p>
+              <p>影线 = 拒绝。那么<strong>没有影线 = 没有任何拒绝</strong>。3/4 从开盘到收盘，买方一路推高，卖方几乎没有还手。<br>
+              这是最强势的信号：<strong>一方绝对控制</strong>。<br>
+              <em>Wick = rejection. No wick = no rejection. Buyers had total control from open to close. This is the strongest possible signal.</em></p>
             </div>
           </div>
 
           <div class="quiz-item">
-            <div class="q"><strong>Q5:</strong> 画一个 BTC 当前的支撑阻力图（在纸上或 TradingView 上），标出至少3个关键区域。<br><em>Draw a BTC S/R map (on paper or TradingView) with at least 3 key zones.</em></div>
+            <div class="q"><strong>Q5:</strong> 3/10 上影线34% + 下影线53% + 实体只有13%。这说明什么？你会做什么？<br><em>3/10: upper wick 34% + lower wick 53% + body only 13%. What does this say? What would you do?</em></div>
             <button class="show-btn" onclick="revealD2Answer(this)">显示答案 Show Answer</button>
             <div class="answer">
-              <p class="correct">✅ 参考答案 — 你的图应该包含这些区域：</p>
-              <p>
-              🟢 <strong>$62K-$64K</strong> 强支撑 (绿色矩形) — 多次触底<br>
-              🟢 <strong>$67K-$68K</strong> 次支撑 (浅绿矩形) — 放量起涨点<br>
-              🔵 <strong>$70K-$71.5K</strong> 角色互换区 (蓝色矩形) — 待确认<br>
-              🔴 <strong>$72K-$73.5K</strong> 次阻力 (浅红矩形)<br>
-              🔴 <strong>$74K-$75K</strong> 强阻力 (红色矩形) — 射击之星高点<br>
-              </p>
-              <p><a href="https://www.tradingview.com/chart/?symbol=BINANCE%3ABTCUSDT" target="_blank">→ 在 TradingView 上实操练习</a></p>
+              <p class="correct">✅ 长十字线 (Long-Legged Doji) — 多空拉锯，观望等待</p>
+              <p>上下都有长影线 = <strong>两个方向都被拒绝</strong>。实体很小 = 多空谁也没赢。<br>
+              这是犹豫/变盘信号。正确做法：<strong>观望，等下一根K线确认方向</strong>。<br>
+              如果第二天收大阳线 = 多方赢，考虑做多。收大阴线 = 空方赢，回避。<br>
+              <em>Both directions rejected, tiny body = nobody won. Wait for next candle to confirm direction.</em></p>
+              <p class="wrong">❌ 常见错误：在犹豫信号出现时急于进场。犹豫 = 等待，不是行动。</p>
             </div>
           </div>
         </div>
@@ -1303,12 +1301,12 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <div class="summary-progress">已掌握 <span id="d2MasteredCount">0</span>/6 Mastered</div>
         </div>
         <ul id="d2SummaryList">
-          <li data-key="d2s1" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>支撑 = 地板（止跌反弹），阻力 = 天花板（遇阻回落）| Support = floor, Resistance = ceiling</span></li>
-          <li data-key="d2s2" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>S/R 是区域不是精确线，用矩形工具画 | S/R are zones, draw with rectangle tool</span></li>
-          <li data-key="d2s3" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>5种识别法：水平线、整数关口、成交量、K线确认、角色互换 | 5 methods: horizontal, round numbers, volume, candlestick, polarity flip</span></li>
-          <li data-key="d2s4" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>角色互换：支撑被破变阻力，阻力被破变支撑 | Broken S becomes R, broken R becomes S</span></li>
-          <li data-key="d2s5" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>不在阻力追高，不在支撑恐慌卖，支撑失效立刻止损 | Don't chase at R, don't panic sell at S, stop loss when S breaks</span></li>
-          <li data-key="d2s6" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>大阳线 = 身体壮（实体长），射击之星 = 头上长（上影线长）— 别再搞混！| Marubozu = big body, Shooting Star = long head — don't mix them up!</span></li>
+          <li data-key="d2s1" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>影线 = 拒绝，影线越长拒绝越强 | Wick = rejection, longer wick = stronger rejection</span></li>
+          <li data-key="d2s2" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>四大形态：锤子线、射击之星、上吊线、倒锤子 | 4 patterns: Hammer, Shooting Star, Hanging Man, Inverted Hammer</span></li>
+          <li data-key="d2s3" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>形状相同，位置不同 = 含义相反（位置 > 形状）| Same shape, different location = opposite meaning (Location > Shape)</span></li>
+          <li data-key="d2s4" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>没有影线 = 没有拒绝 = 一方完全控制（最强信号）| No wick = no rejection = full control (strongest signal)</span></li>
+          <li data-key="d2s5" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>影线信号必须等第二根K线确认，不要单根K线做决策 | Always wait for next candle confirmation</span></li>
+          <li data-key="d2s6" onclick="toggleD2Check(this)"><span class="check-icon"></span><span>大阳线 = 无影线（身体壮），射击之星 = 长上影线（头上长）— 别再搞混！| Marubozu = no wicks, Shooting Star = long upper wick</span></li>
         </ul>
       </div>
 
@@ -1317,8 +1315,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
         <div class="footer-powered">Powered by <span>爻</span> × Claude | Built with real OKX DEX data</div>
         <div class="next-lesson-card">
           <div class="next-label">Next Lesson</div>
-          <div class="next-title">Day 3: 趋势线与通道 Trendlines & Channels</div>
-          <div class="next-sub">学会画趋势线，识别上升通道和下降通道 | Learn to draw trendlines and identify ascending/descending channels</div>
+          <div class="next-title">Day 3: 大实体 vs 小实体 — 力度强弱 Body Size & Momentum</div>
+          <div class="next-sub">实体长 = 力度强，实体短 = 力度弱。学会用实体大小判断趋势的强弱 | Long body = strong momentum, short body = weak. Read trend strength from body size</div>
           <div class="countdown" id="nextCountdown">Loading...</div>
         </div>
       </div>
@@ -1368,10 +1366,10 @@ const volData = rawData.map(d => ({ time: d[0], value: +d[5], color: +d[4] >= +d
 volumeSeries.setData(volData);
 
 candleSeries.setMarkers([
-  { time: 1772553600, position: 'aboveBar', color: '#26a69a', shape: 'arrowUp', text: 'Bullish Marubozu +8.6%' },
-  { time: 1772640000, position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Shooting Star' },
-  { time: 1772812800, position: 'belowBar', color: '#ffa726', shape: 'circle', text: 'Low Vol' },
-  { time: 1772899200, position: 'belowBar', color: '#ffa726', shape: 'circle', text: 'Low Vol' },
+  { time: 1772380800, position: 'belowBar', color: '#26a69a', shape: 'arrowUp', text: 'Hammer 🔨 下影线47%' },
+  { time: 1772553600, position: 'aboveBar', color: '#26a69a', shape: 'arrowUp', text: 'Marubozu 无影线 上影线2%' },
+  { time: 1772640000, position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: 'Shooting Star ⭐ 上影线32%' },
+  { time: 1772985600, position: 'belowBar', color: '#ffa726', shape: 'circle', text: 'Long Doji 上34%+下53%' },
 ]);
 
 chart.timeScale().fitContent();
@@ -1592,7 +1590,7 @@ function updateCountdown() {
   const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
   const secs = Math.floor((diff % (1000 * 60)) / 1000);
   document.getElementById('nextCountdown').textContent =
-    (hours < 0 ? '🟢 D2 已上线 — 点击左侧查看' : 'Unlocks in ' + hours + 'h ' + mins + 'm ' + secs + 's');
+    (hours < 0 ? '🟢 D3 coming soon' : 'Unlocks in ' + hours + 'h ' + mins + 'm ' + secs + 's');
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
