@@ -363,10 +363,11 @@ a:hover { text-decoration: underline; }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 16px;
+  padding: 16px 16px 24px;
   margin-bottom: 16px;
   border: 1px solid var(--glass-border);
   transition: border-color 0.3s;
+  overflow: visible;
 }
 .chart-container:hover { border-color: rgba(0,212,170,0.15); }
 .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
@@ -403,7 +404,7 @@ a:hover { text-decoration: underline; }
 }
 .chart-tab.active { background: rgba(0,212,170,0.12); color: var(--accent); border-color: rgba(0,212,170,0.3); }
 .chart-tab:hover:not(.active) { background: var(--card2); color: var(--text); }
-.chart-box { height: 460px; border-radius: 8px; overflow: visible; }
+.chart-box { height: 480px; border-radius: 8px; overflow: visible; padding-bottom: 8px; }
 .chart-coming-msg {
   display: none;
   height: 420px;
@@ -1467,8 +1468,9 @@ const chart = LightweightCharts.createChart(document.getElementById('btc-chart')
   layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: "'Inter', 'Noto Sans SC', sans-serif" },
   grid: { vertLines: { color: '#1e2d4a' }, horzLines: { color: '#1e2d4a' } },
   crosshair: { mode: 0 },
-  timeScale: { borderColor: '#2a3a5c', timeVisible: false },
+  timeScale: { borderColor: '#2a3a5c', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
   rightPriceScale: { borderColor: '#2a3a5c' },
+  autoSize: true,
 });
 
 const candleSeries = chart.addCandlestickSeries({
@@ -1511,13 +1513,7 @@ candleSeries.setMarkers([
 
 chart.timeScale().fitContent();
 
-// Responsive chart
-new ResizeObserver(() => {
-  const el = document.getElementById('btc-chart');
-  if (el.offsetParent !== null) {
-    chart.applyOptions({ width: el.clientWidth, height: el.clientHeight });
-  }
-}).observe(document.getElementById('btc-chart'));
+// autoSize handles responsive resizing
 
 // ============ Chart Tabs ============
 document.querySelectorAll('.chart-tab').forEach(tab => {
@@ -1737,8 +1733,9 @@ if (d2ChartEl) {
     layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: "'Inter', 'Noto Sans SC', sans-serif" },
     grid: { vertLines: { color: '#1e2d4a' }, horzLines: { color: '#1e2d4a' } },
     crosshair: { mode: 0 },
-    timeScale: { borderColor: '#2a3a5c', timeVisible: false },
+    timeScale: { borderColor: '#2a3a5c', timeVisible: false, fixLeftEdge: true, fixRightEdge: true },
     rightPriceScale: { borderColor: '#2a3a5c' },
+    autoSize: true,
   });
 
   const d2Candles = d2Chart.addCandlestickSeries({
@@ -1773,12 +1770,7 @@ if (d2ChartEl) {
 
   d2Chart.timeScale().fitContent();
 
-  // Responsive
-  new ResizeObserver(() => {
-    if (d2ChartEl.offsetParent !== null) {
-      d2Chart.applyOptions({ width: d2ChartEl.clientWidth, height: d2ChartEl.clientHeight });
-    }
-  }).observe(d2ChartEl);
+  // autoSize handles responsive resizing
 }
 
 // ============ Day 2 Scroll Animations ============
