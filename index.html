@@ -98,7 +98,7 @@ a:hover { text-decoration: underline; }
   z-index: 10;
   display: flex;
   flex-direction: column;
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar::-webkit-scrollbar { width: 4px; }
 .sidebar::-webkit-scrollbar-track { background: transparent; }
@@ -250,7 +250,56 @@ a:hover { text-decoration: underline; }
 }
 .sidebar-overlay.show { display: block; }
 
-.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; position: relative; z-index: 1; }
+/* Sidebar collapse toggle */
+.sidebar-toggle {
+  position: absolute;
+  top: 50%;
+  right: -14px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+  transition: all 0.3s;
+  color: var(--text2);
+  font-size: 14px;
+}
+.sidebar-toggle:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.sidebar-toggle svg { width: 14px; height: 14px; transition: transform 0.3s; }
+
+/* Collapsed sidebar */
+.sidebar.collapsed { width: 60px; }
+.sidebar.collapsed .sidebar-logo .logo-text,
+.sidebar.collapsed .sidebar-header,
+.sidebar.collapsed .sidebar-progress-area .progress-info,
+.sidebar.collapsed .nav-section h3,
+.sidebar.collapsed .sidebar-bottom,
+.sidebar.collapsed .badge { display: none; }
+.sidebar.collapsed .sidebar-logo { padding: 16px 0; justify-content: center; }
+.sidebar.collapsed .sidebar-progress-area { padding: 12px 0; justify-content: center; }
+.sidebar.collapsed .nav-section { padding: 0 6px; }
+.sidebar.collapsed .nav-item {
+  padding: 8px 0;
+  text-align: center;
+  font-size: 0;
+  justify-content: center;
+}
+.sidebar.collapsed .nav-item .day-num {
+  font-size: 11px;
+  display: block;
+  margin: 0;
+}
+.sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
+.sidebar.collapsed .sidebar-nav-content { padding-top: 0; }
+
+.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; position: relative; z-index: 1; transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.main.expanded { margin-left: 60px; }
 
 /* Section animation */
 .section {
@@ -653,10 +702,11 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
+  .sidebar { transform: translateX(-100%); width: 280px !important; }
   .sidebar.open { transform: translateX(0); }
+  .sidebar-toggle { display: none !important; }
   .hamburger-btn { display: flex; }
-  .main { margin-left: 0; padding: 20px; padding-top: 60px; }
+  .main { margin-left: 0 !important; padding: 20px; padding-top: 60px; }
   .annotation-grid { grid-template-columns: 1fr; }
   .pattern-grid { grid-template-columns: 1fr 1fr; }
   .chart-header { flex-direction: column; align-items: flex-start; }
@@ -702,6 +752,9 @@ tr:hover td { background: rgba(255,255,255,0.02); }
 <div class="layout">
   <!-- Sidebar -->
   <nav class="sidebar" id="sidebar">
+    <button class="sidebar-toggle" id="sidebarToggle" title="收起/展开 Collapse/Expand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    </button>
     <div class="sidebar-logo">
       <div class="logo-char">爻</div>
       <div class="logo-text">爻の交易课<br><span style="font-size:10px;opacity:0.6">Yao's Trading Course</span></div>
@@ -1603,6 +1656,24 @@ document.querySelectorAll('.nav-item:not(.locked)').forEach(item => {
       hamburgerBtn.classList.remove('active');
     }
   });
+});
+
+// ============ Sidebar Collapse Toggle ============
+const sidebarToggleBtn = document.getElementById('sidebarToggle');
+const mainContent = document.querySelector('.main');
+
+// Restore state from localStorage
+if (localStorage.getItem('yao-sidebar-collapsed') === 'true') {
+  sidebar.classList.add('collapsed');
+  mainContent.classList.add('expanded');
+}
+
+sidebarToggleBtn.addEventListener('click', () => {
+  sidebar.classList.toggle('collapsed');
+  mainContent.classList.toggle('expanded');
+  localStorage.setItem('yao-sidebar-collapsed', sidebar.classList.contains('collapsed'));
+  // Resize charts when layout changes
+  window.dispatchEvent(new Event('resize'));
 });
 
 // ============ Day 2 Quiz ============
