@@ -298,8 +298,10 @@ a:hover { text-decoration: underline; }
 .sidebar.collapsed .sidebar-toggle svg { transform: rotate(180deg); }
 .sidebar.collapsed .sidebar-nav-content { padding-top: 0; }
 
-.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: 900px; position: relative; z-index: 1; transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
-.main.expanded { margin-left: 60px; }
+.main { margin-left: 280px; flex: 1; padding: 40px 60px; max-width: calc(100vw - 280px); position: relative; z-index: 1; transition: margin-left 0.35s cubic-bezier(0.4, 0, 0.2, 1), max-width 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.main.expanded { margin-left: 60px; max-width: calc(100vw - 60px); }
+.main.expanded .pattern-grid { grid-template-columns: repeat(4, 1fr); }
+.main.expanded .annotation-grid { grid-template-columns: repeat(2, 1fr); }
 
 /* Section animation */
 .section {
