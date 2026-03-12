@@ -393,6 +393,29 @@ a:hover { text-decoration: underline; }
 .anno h4 { font-size: 14px; margin-bottom: 4px; }
 .anno p { font-size: 13px; color: var(--text2); }
 
+/* Wick comparison bars */
+.wick-compare { display: flex; flex-direction: column; gap: 18px; margin-top: 12px; }
+.wick-bar-group { }
+.wick-bar-label { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+.wick-bar-container { display: flex; height: 32px; border-radius: 6px; overflow: hidden; background: rgba(255,255,255,0.03); }
+.wick-bar { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #fff; min-width: 30px; transition: width 0.6s ease; }
+.wick-bar span { text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+.wick-bar.upper { background: rgba(239,83,80,0.35); }
+.wick-bar.upper.alert { background: rgba(239,83,80,0.7); }
+.wick-bar.lower { background: rgba(66,165,245,0.35); }
+.wick-bar.lower.alert { background: rgba(66,165,245,0.7); }
+.wick-bar.body { background: rgba(255,255,255,0.1); }
+.wick-bar.body.bullish { background: rgba(38,166,154,0.5); }
+.wick-bar.body.bearish { background: rgba(239,83,80,0.5); }
+.wick-bar.body.neutral { background: rgba(255,167,38,0.4); }
+.wick-bar-verdict { font-size: 12px; margin-top: 4px; font-style: italic; }
+.wick-bar-verdict.bullish { color: var(--green); }
+.wick-bar-verdict.bearish { color: var(--red); }
+.wick-bar-verdict.neutral { color: var(--yellow); }
+@media (max-width: 768px) {
+  .wick-bar span { font-size: 9px; }
+}
+
 /* K-line patterns */
 .pattern-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 .pattern-card {
@@ -798,8 +821,8 @@ tr:hover td { background: rgba(255,255,255,0.02); }
           <div class="chart-box" id="btc-chart"></div>
           <div class="chart-coming-msg" id="chart-coming">
             <div class="coming-icon">&#128274;</div>
-            <div>Coming in Day 2</div>
-            <div style="font-size:12px;opacity:0.6">多时间周期分析将在第2天解锁</div>
+            <div>Coming Soon</div>
+            <div style="font-size:12px;opacity:0.6">多时间周期分析将在后续课程解锁</div>
           </div>
         </div>
 
@@ -1066,6 +1089,65 @@ tr:hover td { background: rgba(255,255,255,0.02); }
             <tr><td>下影线 Lower Wick</td><td>$71,386 - $69,950</td><td>$1,436 (28%)</td></tr>
           </table>
           <div class="key">上影线占32% + 实体是阴线 = 冲高$75K被拒 + 收盘低于开盘 = 卖方赢了 | Upper wick 32% + bearish body = $75K rejected, sellers won</div>
+        </div>
+      </div>
+
+      <!-- Section 1.5: Wick Visual Chart -->
+      <div class="section" id="d2-section-chart">
+        <h3>📊 影线可视化分析 <span class="bilingual">Wick Visual Analysis</span></h3>
+
+        <div class="chart-container">
+          <div class="chart-header">
+            <div class="chart-title">
+              <span class="live-dot"></span>
+              <span>D2</span>
+              BTC/USDT 日线 | 影线比例分析 Wick Ratio Analysis | 数据来源: OKX DEX
+            </div>
+          </div>
+          <div class="chart-box" id="d2-wick-chart"></div>
+        </div>
+
+        <!-- Wick Ratio Visual Bars -->
+        <div class="concept-card">
+          <h4>影线比例对比 <span class="en">Wick Ratio Comparison — 4 Key Candles</span></h4>
+          <div class="wick-compare">
+            <div class="wick-bar-group">
+              <div class="wick-bar-label">3/4 大阳线 Marubozu</div>
+              <div class="wick-bar-container">
+                <div class="wick-bar upper" style="width:2%"><span>2%</span></div>
+                <div class="wick-bar body bullish" style="width:78%"><span>实体 78%</span></div>
+                <div class="wick-bar lower" style="width:19%"><span>19%</span></div>
+              </div>
+              <div class="wick-bar-verdict bullish">几乎无拒绝 = 买方完全控制 No rejection</div>
+            </div>
+            <div class="wick-bar-group">
+              <div class="wick-bar-label">3/5 射击之星 Shooting Star</div>
+              <div class="wick-bar-container">
+                <div class="wick-bar upper alert" style="width:32%"><span>上影 32%</span></div>
+                <div class="wick-bar body bearish" style="width:39%"><span>实体 39%</span></div>
+                <div class="wick-bar lower" style="width:28%"><span>28%</span></div>
+              </div>
+              <div class="wick-bar-verdict bearish">上方强拒绝 = $75K 卖压 Upper rejection at $75K</div>
+            </div>
+            <div class="wick-bar-group">
+              <div class="wick-bar-label">3/1 锤子线 Hammer</div>
+              <div class="wick-bar-container">
+                <div class="wick-bar upper" style="width:15%"><span>15%</span></div>
+                <div class="wick-bar body bullish" style="width:38%"><span>实体 38%</span></div>
+                <div class="wick-bar lower alert" style="width:47%"><span>下影 47%</span></div>
+              </div>
+              <div class="wick-bar-verdict bullish">下方强拒绝 = $64K 有买盘 Lower rejection, buyers at $64K</div>
+            </div>
+            <div class="wick-bar-group">
+              <div class="wick-bar-label">3/10 长十字 Long Doji</div>
+              <div class="wick-bar-container">
+                <div class="wick-bar upper alert" style="width:34%"><span>上影 34%</span></div>
+                <div class="wick-bar body neutral" style="width:13%"><span>13%</span></div>
+                <div class="wick-bar lower alert" style="width:53%"><span>下影 53%</span></div>
+              </div>
+              <div class="wick-bar-verdict neutral">双向拒绝 = 多空拉锯 Both rejected = indecision</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1574,6 +1656,57 @@ function updateD2MasteredCount() {
 }
 
 loadD2Checklist();
+
+// ============ Day 2 Wick Analysis Chart ============
+const d2ChartEl = document.getElementById('d2-wick-chart');
+if (d2ChartEl) {
+  const d2Chart = LightweightCharts.createChart(d2ChartEl, {
+    layout: { background: { color: '#16213e' }, textColor: '#ddd', fontFamily: "'Inter', 'Noto Sans SC', sans-serif" },
+    grid: { vertLines: { color: '#1e2d4a' }, horzLines: { color: '#1e2d4a' } },
+    crosshair: { mode: 0 },
+    timeScale: { borderColor: '#2a3a5c', timeVisible: false },
+    rightPriceScale: { borderColor: '#2a3a5c' },
+  });
+
+  const d2Candles = d2Chart.addCandlestickSeries({
+    upColor: '#26a69a', downColor: '#ef5350',
+    borderUpColor: '#26a69a', borderDownColor: '#ef5350',
+    wickUpColor: '#26a69a', wickDownColor: '#ef5350',
+  });
+
+  // Same BTC data, focused on wick analysis
+  const d2Data = rawData.map(d => ({ time: d[0], open: +d[1], high: +d[2], low: +d[3], close: +d[4] }));
+  d2Candles.setData(d2Data);
+
+  // Volume
+  const d2Vol = d2Chart.addHistogramSeries({ priceFormat: { type: 'volume' }, priceScaleId: '' });
+  d2Vol.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+  d2Vol.setData(rawData.map(d => ({ time: d[0], value: +d[5], color: +d[4] >= +d[1] ? 'rgba(38,166,154,0.4)' : 'rgba(239,83,80,0.4)' })));
+
+  // Wick-focused markers with ratio labels
+  d2Candles.setMarkers([
+    { time: 1772380800, position: 'belowBar', color: '#42a5f5', shape: 'arrowUp', text: '锤子线 Hammer | 下影线47%' },
+    { time: 1772553600, position: 'aboveBar', color: '#26a69a', shape: 'arrowUp', text: '大阳线 | 无影线(2%) = 无拒绝' },
+    { time: 1772640000, position: 'aboveBar', color: '#ef5350', shape: 'arrowDown', text: '射击之星 | 上影线32% = $75K被拒' },
+    { time: 1772985600, position: 'belowBar', color: '#ffa726', shape: 'circle', text: '长十字 | 上34%+下53% = 双向拒绝' },
+  ]);
+
+  // Draw wick rejection zones as horizontal lines
+  const d2Lines = d2Chart.addLineSeries({ color: 'rgba(239,83,80,0.5)', lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false });
+  d2Lines.setData([{ time: 1772553600, value: 74994 }, { time: 1773072000, value: 74994 }]);
+
+  const d2SupportLine = d2Chart.addLineSeries({ color: 'rgba(38,166,154,0.5)', lineWidth: 1, lineStyle: 2, priceLineVisible: false, lastValueVisible: false });
+  d2SupportLine.setData([{ time: 1771948800, value: 63864 }, { time: 1772640000, value: 63864 }]);
+
+  d2Chart.timeScale().fitContent();
+
+  // Responsive
+  new ResizeObserver(() => {
+    if (d2ChartEl.offsetParent !== null) {
+      d2Chart.applyOptions({ width: d2ChartEl.clientWidth, height: d2ChartEl.clientHeight });
+    }
+  }).observe(d2ChartEl);
+}
 
 // ============ Day 2 Scroll Animations ============
 document.querySelectorAll('#day2 .section').forEach(s => sectionObserver.observe(s));
